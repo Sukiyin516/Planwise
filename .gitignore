@@ -1,0 +1,21 @@
+# Local state and backups
+/data.json
+/demo-data*.json
+/my-data.json
+/sample-data.json
+*.bak
+*.tmp
+__pycache__/
+*.py[cod]
+.DS_Store
+# Build outputs, machine paths and signing keys
+/output/
+/android/.gradle/
+/android/build/
+/android/app/build/
+/android/local.properties
+*.jks
+*.keystore
+# Shared runtime is copied by android/build-apk.sh
+/android/app/src/main/python/*
+!/android/app/src/main/python/android_bootstrap.py

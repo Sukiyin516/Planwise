@@ -1,0 +1,1198 @@
+{
+  "任務地圖": [
+    "任务地图",
+    "Task map"
+  ],
+  "時間行程": [
+    "时间行程",
+    "Schedule"
+  ],
+  "事項與設定": [
+    "事项与设置",
+    "Life & settings"
+  ],
+  "事項與私人時間 ↗": [
+    "事项与私人时间 ↗",
+    "Life & personal time ↗"
+  ],
+  "記一件事": [
+    "记一件事",
+    "Add task"
+  ],
+  "留白": [
+    "留白",
+    "Planwise"
+  ],
+  "任務與時間": [
+    "任务与时间",
+    "Tasks & time"
+  ],
+  "主要分頁": [
+    "主要分页",
+    "Main navigation"
+  ],
+  "件待做": [
+    "件待做",
+    "tasks"
+  ],
+  "個長期想做的事": [
+    "个长期想做的事",
+    "long-term goals"
+  ],
+  "已完成": [
+    "已完成",
+    "Completed"
+  ],
+  "完成的事會留在這裡。": [
+    "完成的事会留在这里。",
+    "Completed tasks stay here."
+  ],
+  "給接下來的自己。": [
+    "给接下来的自己。",
+    "Room for your future self."
+  ],
+  "示例模式": [
+    "示例模式",
+    "Sample mode"
+  ],
+  "本機保存": [
+    "本机保存",
+    "Saved locally"
+  ],
+  "半小時剛剛好": [
+    "半小时刚刚好",
+    "One half-hour at a time"
+  ],
+  "把心裡的事，輕輕放下。": [
+    "把心里的事，轻轻放下。",
+    "A little room for everything."
+  ],
+  "地圖縮放": [
+    "地图缩放",
+    "Map zoom"
+  ],
+  "縮小地圖": [
+    "缩小地图",
+    "Zoom out"
+  ],
+  "重設地圖縮放": [
+    "重设地图缩放",
+    "Reset zoom"
+  ],
+  "放大地圖": [
+    "放大地图",
+    "Zoom in"
+  ],
+  "任務座標圖，向右越重要，向上越緊急": [
+    "任务坐标图，向右越重要，向上越紧急",
+    "Task map: importance increases right, urgency increases up"
+  ],
+  "更緊急 ↑": [
+    "更紧急 ↑",
+    "More urgent ↑"
+  ],
+  "更重要 →": [
+    "更重要 →",
+    "More important →"
+  ],
+  "不緊急・較不重要": [
+    "不紧急・较不重要",
+    "Less urgent · less important"
+  ],
+  "不緊急・重要": [
+    "不紧急・重要",
+    "Less urgent · important"
+  ],
+  "緊急・較不重要": [
+    "紧急・较不重要",
+    "Urgent · less important"
+  ],
+  "緊急・重要": [
+    "紧急・重要",
+    "Urgent · important"
+  ],
+  "● 有 DDL　◔ 長期目標隨投入填滿": [
+    "● 有 DDL　◔ 长期目标随投入填满",
+    "● Deadline　◔ Goals fill with time invested"
+  ],
+  "點一下看詳情 · 放大可看更多": [
+    "点一下看详情 · 放大可看更多",
+    "Tap for details · zoom for more"
+  ],
+  "查看 ": [
+    "查看 ",
+    "View "
+  ],
+  "的時間留白": [
+    "的时间留白",
+    "Schedule"
+  ],
+  "週總覽": [
+    "周总览",
+    "Week"
+  ],
+  "單日": [
+    "单日",
+    "Day"
+  ],
+  "週一": [
+    "周一",
+    "Mon"
+  ],
+  "週二": [
+    "周二",
+    "Tue"
+  ],
+  "週三": [
+    "周三",
+    "Wed"
+  ],
+  "週四": [
+    "周四",
+    "Thu"
+  ],
+  "週五": [
+    "周五",
+    "Fri"
+  ],
+  "週六": [
+    "周六",
+    "Sat"
+  ],
+  "週日": [
+    "周日",
+    "Sun"
+  ],
+  "星期日": [
+    "星期日",
+    "Sunday"
+  ],
+  "接下來": [
+    "接下来",
+    "Up next"
+  ],
+  "暫時沒有安排": [
+    "暂时没有安排",
+    "Nothing scheduled yet"
+  ],
+  "■ DDL 任務": [
+    "■ DDL 任务",
+    "■ Deadline task"
+  ],
+  "■ 固定事項": [
+    "■ 固定事项",
+    "■ Fixed event"
+  ],
+  "▧ 私人時間": [
+    "▧ 私人时间",
+    "▧ Personal time"
+  ],
+  "半透明：待確認": [
+    "半透明：待确认",
+    "Translucent: awaiting approval"
+  ],
+  "現在": [
+    "现在",
+    "Now"
+  ],
+  "週總覽可看七天；點日期可展開完整單日。": [
+    "周总览可看七天；点日期可展开完整单日。",
+    "All 7 days fit here. Tap a date for the full day."
+  ],
+  "00:00–24:00 · 半小時一格 · 點選展開氣泡，拖動調整": [
+    "00:00–24:00 · 半小时一格 · 点选展开气泡，拖动调整",
+    "00:00–24:00 · 30-minute slots · tap to open, drag to move"
+  ],
+  "未佔用空檔": [
+    "未占用空档",
+    "Unallocated time"
+  ],
+  "待留意的任務": [
+    "待留意的任务",
+    "Tasks needing attention"
+  ],
+  "先把課程、輪班和睡眠／私人時間放進「事項」。未被佔用的時間才是可管理空檔；此處沒有預設上班時段。": [
+    "先把课程、轮班和睡眠／私人时间放进「事项」。未被占用的时间才是可管理空档；此处没有预设上班时段。",
+    "Add classes, shifts and sleep / personal time in Life & settings first. Only the gaps are available; no working hours are assumed."
+  ],
+  "去設定 →": [
+    "去设置 →",
+    "Set up →"
+  ],
+  "目前只內置 2026–2027 香港公眾假期；其他年份僅按工作星期區分。": [
+    "目前只内置 2026–2027 香港公众假期；其他年份仅按工作星期区分。",
+    "Only 2026–2027 Hong Kong public holidays are included. Other years use selected weekdays only."
+  ],
+  "已逾期。": [
+    "已逾期。",
+    "Overdue."
+  ],
+  "期限前空檔不足。": [
+    "期限前空档不足。",
+    "Insufficient time before the deadline."
+  ],
+  "尚未排入本週，期限在七天以外。": [
+    "尚未排入本周，期限在七天以外。",
+    "Not scheduled this week; deadline is beyond 7 days."
+  ],
+  "固定事項": [
+    "固定事项",
+    "Fixed event"
+  ],
+  "私人時間": [
+    "私人时间",
+    "Personal time"
+  ],
+  "已投入": [
+    "已投入",
+    "Time logged"
+  ],
+  "原位置": [
+    "原位置",
+    "Original position"
+  ],
+  "建議位置": [
+    "建议位置",
+    "Proposed position"
+  ],
+  "已確認安排": [
+    "已确认安排",
+    "Confirmed schedule"
+  ],
+  "借用私人時間": [
+    "借用私人时间",
+    "Using personal time"
+  ],
+  "手動安排": [
+    "手动安排",
+    "Manually placed"
+  ],
+  "空出一點時間，要把後面的事提前嗎？": [
+    "空出一点时间，要把后面的事提前吗？",
+    "Some time opened up. Move later tasks forward?"
+  ],
+  "兩個半透明位置是一組建議，確認後才會更動原安排。": [
+    "两个半透明位置是一组建议，确认后才会更动原安排。",
+    "The two translucent positions are one proposal. Your schedule changes only after approval."
+  ],
+  "確認前移": [
+    "确认前移",
+    "Approve moves"
+  ],
+  "保留原安排": [
+    "保留原安排",
+    "Keep schedule"
+  ],
+  "有待確認的前移建議，去時間行程看看 →": [
+    "有待确认的前移建议，去时间行程看看 →",
+    "A move proposal needs approval. View schedule →"
+  ],
+  "任務詳情": [
+    "任务详情",
+    "Task details"
+  ],
+  "事項詳情": [
+    "事项详情",
+    "Event details"
+  ],
+  "關閉氣泡": [
+    "关闭气泡",
+    "Close details"
+  ],
+  "長期目標 · 有空再做": [
+    "长期目标 · 有空再做",
+    "Long-term goal · when you have time"
+  ],
+  "累計投入": [
+    "累计投入",
+    "Time invested"
+  ],
+  "圓點填滿代表投入達到參考工時，不代表目標已完成。": [
+    "圆点填满代表投入达到参考工时，不代表目标已完成。",
+    "A full dot means you reached the reference hours, not that the goal is complete."
+  ],
+  "剩餘 ": [
+    "剩余 ",
+    "Remaining "
+  ],
+  "編輯任務 ↗": [
+    "编辑任务 ↗",
+    "Edit task ↗"
+  ],
+  "這次做了多少？": [
+    "这次做了多少？",
+    "What did you do this time?"
+  ],
+  "實際開始時間": [
+    "实际开始时间",
+    "Actual start time"
+  ],
+  "實際投入（小時）": [
+    "实际投入（小时）",
+    "Time spent (hours)"
+  ],
+  "整份任務已完成": [
+    "整份任务已完成",
+    "This task is complete"
+  ],
+  "提前完成會釋放剩餘時間。其他任務若能前移，會先顯示建議，等你確認。": [
+    "提前完成会释放剩余时间。其他任务若能前移，会先显示建议，等你确认。",
+    "Finishing early frees the remaining time. Any proposed earlier moves need your approval."
+  ],
+  "記錄投入": [
+    "记录投入",
+    "Log time"
+  ],
+  "其他操作": [
+    "其他操作",
+    "Other actions"
+  ],
+  "刪除此任務": [
+    "删除此任务",
+    "Delete task"
+  ],
+  "編輯任務": [
+    "编辑任务",
+    "Edit task"
+  ],
+  "記下一件事": [
+    "记下一件事",
+    "Add a task"
+  ],
+  "任務名稱": [
+    "任务名称",
+    "Task name"
+  ],
+  "例如：小組報告、日語 N1": [
+    "例如：小组报告、日语 N1",
+    "e.g. Group report, Japanese N1"
+  ],
+  "有 DDL 的任務": [
+    "有 DDL 的任务",
+    "Task with a deadline"
+  ],
+  "有空再做的長期目標": [
+    "有空再做的长期目标",
+    "Long-term goal for free time"
+  ],
+  "分類（可留空）": [
+    "分类（可留空）",
+    "Category (optional)"
+  ],
+  "截止日期": [
+    "截止日期",
+    "Deadline"
+  ],
+  "剩餘工時（h）": [
+    "剩余工时（h）",
+    "Hours remaining"
+  ],
+  "長期目標不用填期限或剩餘工時。": [
+    "长期目标不用填期限或剩余工时。",
+    "Goals do not need a deadline or remaining hours."
+  ],
+  "圓點填滿參考工時（h）": [
+    "圆点填满参考工时（h）",
+    "Reference hours for a full dot"
+  ],
+  "預設 10 小時，可自行修改；只用於圓點顯示，不會自動排程或標記完成。": [
+    "预设 10 小时，可自行修改；只用于圆点显示，不会自动排程或标记完成。",
+    "Default: 10 hours. Change freely; this only controls the dot, not scheduling or completion."
+  ],
+  "最早開始日（可留空）": [
+    "最早开始日（可留空）",
+    "Earliest start (optional)"
+  ],
+  "重要程度": [
+    "重要程度",
+    "Importance"
+  ],
+  "較不重要": [
+    "较不重要",
+    "Less important"
+  ],
+  "重要": [
+    "重要",
+    "Important"
+  ],
+  "儲存修改": [
+    "保存修改",
+    "Save changes"
+  ],
+  "加入任務": [
+    "加入任务",
+    "Add task"
+  ],
+  "用表單調整這段安排": [
+    "用表单调整这段安排",
+    "Move this block with a form"
+  ],
+  "移到日期": [
+    "移到日期",
+    "Move to date"
+  ],
+  "調整任務開始時間": [
+    "调整任务开始时间",
+    "New task start time"
+  ],
+  "開始時間": [
+    "开始时间",
+    "Start time"
+  ],
+  "結束時間": [
+    "结束时间",
+    "End time"
+  ],
+  "移動這段任務": [
+    "移动这段任务",
+    "Move this task block"
+  ],
+  "編輯事項系列": [
+    "编辑事项系列",
+    "Edit event series"
+  ],
+  "留一段固定的時間": [
+    "留一段固定的时间",
+    "Reserve some time"
+  ],
+  "事項名稱": [
+    "事项名称",
+    "Event name"
+  ],
+  "例如：Python 課、夜班、睡眠": [
+    "例如：Python 课、夜班、睡眠",
+    "e.g. Python class, night shift, sleep"
+  ],
+  "固定事項（課程／工作／出差）": [
+    "固定事项（课程／工作／出差）",
+    "Fixed event (class / work / travel)"
+  ],
+  "私人時間（睡眠／休息／陪伴）": [
+    "私人时间（睡眠／休息／陪伴）",
+    "Personal time (sleep / rest / family)"
+  ],
+  "類型": [
+    "类型",
+    "Type"
+  ],
+  "開始日期": [
+    "开始日期",
+    "Start date"
+  ],
+  "事項開始時間": [
+    "事项开始时间",
+    "Event start time"
+  ],
+  "事項結束時間": [
+    "事项结束时间",
+    "Event end time"
+  ],
+  "結束早於開始代表跨午夜；全天請用 00:00–24:00。": [
+    "结束早于开始代表跨午夜；全天请用 00:00–24:00。",
+    "An earlier end time means overnight. For a full day use 00:00–24:00."
+  ],
+  "不重複": [
+    "不重复",
+    "Does not repeat"
+  ],
+  "每天": [
+    "每天",
+    "Every day"
+  ],
+  "每週的這些日子": [
+    "每周的这些日子",
+    "On these weekdays"
+  ],
+  "每週": [
+    "每周",
+    "Every week"
+  ],
+  "每月同日": [
+    "每月同日",
+    "Monthly on this date"
+  ],
+  "每工作日": [
+    "每工作日",
+    "Every workday"
+  ],
+  "每假日": [
+    "每假日",
+    "Every day off"
+  ],
+  "重複直到（可留空）": [
+    "重复直到（可留空）",
+    "Repeat until (optional)"
+  ],
+  "重複": [
+    "重复",
+    "Repeat"
+  ],
+  "每月若沒有同一天，例如 2 月沒有 31 日，該月略過。修改此表會更新整個系列並清除單次調整；拖動只改那一次。": [
+    "每月若没有同一天，例如 2 月没有 31 日，该月略过。修改此表会更新整个系列并清除单次调整；拖动只改那一次。",
+    "Months without this date are skipped. Saving this form updates the whole series and clears single-occurrence changes. Dragging moves only one occurrence."
+  ],
+  "儲存事項系列": [
+    "保存事项系列",
+    "Save event series"
+  ],
+  "加入事項": [
+    "加入事项",
+    "Add event"
+  ],
+  "只調整這一次": [
+    "只调整这一次",
+    "Move only this occurrence"
+  ],
+  "這次事項開始時間": [
+    "这次事项开始时间",
+    "Start time for this occurrence"
+  ],
+  "保留原長度，只改本次日期與時間；其他重複日期不變。": [
+    "保留原长度，只改本次日期与时间；其他重复日期不变。",
+    "Keep the duration and move only this occurrence. Other dates stay unchanged."
+  ],
+  "移動這一次事項": [
+    "移动这一次事项",
+    "Move this occurrence"
+  ],
+  "移除這個系列": [
+    "移除这个系列",
+    "Remove this series"
+  ],
+  "刪除整個事項系列": [
+    "删除整个事项系列",
+    "Delete entire event series"
+  ],
+  "課程、輪班、出差與已約定的事情。": [
+    "课程、轮班、出差与已约定的事情。",
+    "Classes, shifts, travel and commitments."
+  ],
+  "睡眠、休息、家庭與不想被任務佔用的時段。": [
+    "睡眠、休息、家庭与不想被任务占用的时段。",
+    "Sleep, rest, family and time you want to protect."
+  ],
+  "還沒有設定，按右上角加入。": [
+    "还没有设置，按右上角加入。",
+    "No events yet. Use Add event above."
+  ],
+  "先放生活，再安排空檔。": [
+    "先放生活，再安排空档。",
+    "Life first. Plan the gaps."
+  ],
+  "沒有預設 08:00–16:00 的工作時間。你填入的課程、班次及私人時間會先被保留，其餘才是可規劃空檔。": [
+    "没有预设 08:00–16:00 的工作时间。你填入的课程、班次及私人时间会先被保留，其余才是可规划空档。",
+    "No 08:00–16:00 working day is assumed. Your classes, shifts and personal time are reserved first; the gaps are available to plan."
+  ],
+  "允許緊急 DDL 借用私人時間": [
+    "允许紧急 DDL 借用私人时间",
+    "Allow urgent deadlines to use personal time"
+  ],
+  "預設關閉。開啟後，只在普通空檔不足、且期限在三天內時借用；固定事項始終不能被佔用，借用的格子會標示出來。": [
+    "预设关闭。开启后，只在普通空档不足、且期限在三天内时借用；固定事项始终不能被占用，借用的格子会标示出来。",
+    "Off by default. Only deadlines within 3 days can use personal time when other gaps are insufficient. Fixed events are always protected. Borrowed slots are labelled."
+  ],
+  "儲存私人時間設定": [
+    "保存私人时间设置",
+    "Save personal time policy"
+  ],
+  "偏好設定": [
+    "偏好设置",
+    "Preferences"
+  ],
+  "語言": [
+    "语言",
+    "Language"
+  ],
+  "我的工作星期": [
+    "我的工作星期",
+    "My working weekdays"
+  ],
+  "工作日＝選定星期扣除香港公眾假期；其餘為假日。此設定只影響重複規則，不會封鎖整天。": [
+    "工作日＝选定星期扣除香港公众假期；其余为假日。此设置只影响重复规则，不会封锁整天。",
+    "Workdays are the selected weekdays excluding Hong Kong public holidays. Other days are days off. This only changes recurrence rules, not your available hours."
+  ],
+  "已內置 2026–2027 香港公眾假期，週日亦為公眾假期。其他年份僅按工作星期區分，請自行核對。": [
+    "已内置 2026–2027 香港公众假期，周日亦为公众假期。其他年份仅按工作星期区分，请自行核对。",
+    "2026–2027 Hong Kong public holidays are included, along with Sundays. Other years use weekdays only; please check dates yourself."
+  ],
+  "儲存設定": [
+    "保存设置",
+    "Save preferences"
+  ],
+  "香港政府公眾假期資料 ↗": [
+    "香港政府公众假期资料 ↗",
+    "Hong Kong government holiday dates ↗"
+  ],
+  "資料導入／導出": [
+    "数据导入／导出",
+    "Import / export data"
+  ],
+  "備份包含任務、投入紀錄、事項、手動安排及偏好設定。網頁版與 Android 使用相同 JSON 格式。": [
+    "备份包含任务、投入记录、事项、手动安排及偏好设置。网页版与 Android 使用相同 JSON 格式。",
+    "Backups include tasks, time logs, events, manual placements and preferences. Web and Android use the same JSON format."
+  ],
+  "導出 JSON 備份": [
+    "导出 JSON 备份",
+    "Export JSON backup"
+  ],
+  "選擇 JSON 備份": [
+    "选择 JSON 备份",
+    "Choose JSON backup"
+  ],
+  "備份內容": [
+    "备份内容",
+    "Backup contents"
+  ],
+  "也可貼上 JSON 備份內容": [
+    "也可贴上 JSON 备份内容",
+    "Or paste JSON backup contents"
+  ],
+  "我確認以此備份取代目前資料": [
+    "我确认以此备份取代目前数据",
+    "I confirm replacing current data with this backup"
+  ],
+  "導入會取代目前資料；先驗證檔案並自動備份原資料。建議先導出，方便還原。": [
+    "导入会取代目前数据；先验证文件并自动备份原数据。建议先导出，方便还原。",
+    "Import replaces current data after validation and an automatic local backup. Export first so you can restore it easily."
+  ],
+  "驗證並導入": [
+    "验证并导入",
+    "Validate and import"
+  ],
+  "元旦": [
+    "元旦",
+    "New Year's Day"
+  ],
+  "農曆年初一": [
+    "农历年初一",
+    "Lunar New Year"
+  ],
+  "農曆年初二": [
+    "农历年初二",
+    "Lunar New Year day 2"
+  ],
+  "農曆年初三": [
+    "农历年初三",
+    "Lunar New Year day 3"
+  ],
+  "農曆年初四": [
+    "农历年初四",
+    "Lunar New Year day 4"
+  ],
+  "耶穌受難節翌日": [
+    "耶稣受难节翌日",
+    "Day after Good Friday"
+  ],
+  "耶穌受難節": [
+    "耶稣受难节",
+    "Good Friday"
+  ],
+  "清明節翌日": [
+    "清明节翌日",
+    "Day after Ching Ming"
+  ],
+  "清明節": [
+    "清明节",
+    "Ching Ming"
+  ],
+  "復活節星期一翌日": [
+    "复活节星期一翌日",
+    "Day after Easter Monday"
+  ],
+  "復活節星期一": [
+    "复活节星期一",
+    "Easter Monday"
+  ],
+  "勞動節": [
+    "劳动节",
+    "Labour Day"
+  ],
+  "佛誕翌日": [
+    "佛诞翌日",
+    "Day after Buddha's Birthday"
+  ],
+  "佛誕": [
+    "佛诞",
+    "Buddha's Birthday"
+  ],
+  "端午節": [
+    "端午节",
+    "Tuen Ng Festival"
+  ],
+  "香港特別行政區成立紀念日": [
+    "香港特别行政区成立纪念日",
+    "HKSAR Establishment Day"
+  ],
+  "中秋節翌日": [
+    "中秋节翌日",
+    "Day after Mid-Autumn Festival"
+  ],
+  "國慶日": [
+    "国庆日",
+    "National Day"
+  ],
+  "重陽節翌日": [
+    "重阳节翌日",
+    "Day after Chung Yeung"
+  ],
+  "重陽節": [
+    "重阳节",
+    "Chung Yeung"
+  ],
+  "聖誕節後第一個周日": [
+    "圣诞节后第一个周日",
+    "First weekday after Christmas"
+  ],
+  "聖誕節": [
+    "圣诞节",
+    "Christmas Day"
+  ],
+  "單次": [
+    "单次",
+    "Once"
+  ],
+  "每月": [
+    "每月",
+    "Monthly"
+  ],
+  "翌日": [
+    "翌日",
+    "next day"
+  ],
+  " 起 ": [
+    " 起 ",
+    " onwards "
+  ],
+  "無法載入任務，請稍後再試。": [
+    "无法载入任务，请稍后再试。",
+    "Could not load the task. Please try again."
+  ],
+  "無法載入詳情。": [
+    "无法载入详情。",
+    "Could not load details."
+  ],
+  "頁面已過期，請重新整理後再試。": [
+    "页面已过期，请重新刷新后再试。",
+    "This page has expired. Refresh and try again."
+  ],
+  "修改未儲存。": [
+    "修改未保存。",
+    "Changes were not saved."
+  ],
+  "請放到行程表內的半小時空格。": [
+    "请放到行程表内的半小时空格。",
+    "Drop inside a 30-minute calendar slot."
+  ],
+  "檔案不能超過 2 MB。": [
+    "文件不能超过 2 MB。",
+    "File must be no larger than 2 MB."
+  ],
+  "無法讀取備份檔。": [
+    "无法读取备份文件。",
+    "Could not read the backup file."
+  ],
+  "備份檔格式不正確，原有資料未更改。": [
+    "备份文件格式不正确，原有数据未更改。",
+    "Invalid backup format. Current data is unchanged."
+  ],
+  "請先確認以備份取代目前資料。": [
+    "请先确认以备份取代目前数据。",
+    "Confirm replacing current data first."
+  ],
+  "設定已儲存。": [
+    "设置已保存。",
+    "Preferences saved."
+  ],
+  "資料已導入，原有資料已另存備份。": [
+    "数据已导入，原有数据已另存备份。",
+    "Data imported. Previous data was backed up locally."
+  ],
+  "已儲存。": [
+    "已保存。",
+    "Saved."
+  ],
+  "已確認前移，新位置已成為正式安排。": [
+    "已确认前移，新位置已成为正式安排。",
+    "Moves approved and saved."
+  ],
+  "已保留原安排，空出的時間留白。": [
+    "已保留原安排，空出的时间留白。",
+    "Original schedule kept; the gap stays free."
+  ],
+  "已記錄投入。有可前移的任務，請確認是否調整。": [
+    "已记录投入。有可前移的任务，请确认是否调整。",
+    "Time logged. Review the proposed earlier moves."
+  ],
+  "已調整這一次事項，其他重複日期不變，空檔已重新計算。": [
+    "已调整这一次事项，其他重复日期不变，空档已重新计算。",
+    "This occurrence was moved. Other dates are unchanged; gaps were recalculated."
+  ],
+  "已移動這段任務，手動位置會保留；固定事項與私人時間已檢查。": [
+    "已移动这段任务，手动位置会保留；固定事项与私人时间已检查。",
+    "Task block moved and pinned. Fixed events and personal time were checked."
+  ],
+  "時間請填 0–1000 小時，並以半小時（0.5 小時）為單位。": [
+    "时间请填 0–1000 小时，并以半小时（0.5 小时）为单位。",
+    "Enter 0–1000 hours in half-hour steps."
+  ],
+  "時間請填數字，並以半小時（0.5 小時）為單位。": [
+    "时间请填数字，并以半小时（0.5 小时）为单位。",
+    "Enter a number in half-hour steps."
+  ],
+  "請填寫任務名稱（最多 100 字）；分類最多 60 字。": [
+    "请填写任务名称（最多 100 字）；分类最多 60 字。",
+    "Enter a task name (up to 100 characters) and a category up to 60 characters."
+  ],
+  "請選擇任務類型及重要程度。": [
+    "请选择任务类型及重要程度。",
+    "Choose a task type and importance."
+  ],
+  "有 DDL 的任務至少需要半小時。": [
+    "有 DDL 的任务至少需要半小时。",
+    "Deadline tasks need at least half an hour."
+  ],
+  "找不到這份任務。": [
+    "找不到这份任务。",
+    "Task not found."
+  ],
+  "這份任務已完成。": [
+    "这份任务已完成。",
+    "This task is already complete."
+  ],
+  "圓點參考工時至少半小時。": [
+    "圆点参考工时至少半小时。",
+    "Reference hours must be at least half an hour."
+  ],
+  "未知操作。": [
+    "未知操作。",
+    "Unknown action."
+  ],
+  "每天的總可用時間不能超過 24 小時。": [
+    "每天的总可用时间不能超过 24 小时。",
+    "Daily available time cannot exceed 24 hours."
+  ],
+  "有 DDL 的任務需要截止日期。長期目標可不填期限。": [
+    "有 DDL 的任务需要截止日期。长期目标可不填期限。",
+    "Deadline tasks need a due date. Long-term goals do not."
+  ],
+  "最早開始日不能晚於截止日期。": [
+    "最早开始日不能晚于截止日期。",
+    "The earliest start cannot be after the deadline."
+  ],
+  "這份任務已完成，不能重複記錄。": [
+    "这份任务已完成，不能重复记录。",
+    "This task is complete; time cannot be logged again."
+  ],
+  "本次投入至少半小時；當日累計不能超過 24 小時。": [
+    "本次投入至少半小时；当日累计不能超过 24 小时。",
+    "Log at least half an hour; daily total cannot exceed 24 hours."
+  ],
+  "時間須為 00:00–24:00，並以半小時為單位。": [
+    "时间须为 00:00–24:00，并以半小时为单位。",
+    "Use 00:00–24:00 in half-hour steps."
+  ],
+  "找不到這個事項。": [
+    "找不到这个事项。",
+    "Event not found."
+  ],
+  "請填寫事項名稱，並選擇正確的類型及重複規則。": [
+    "请填写事项名称，并选择正确的类型及重复规则。",
+    "Enter an event name, type and valid repeat rule."
+  ],
+  "重複結束日期不能早於開始日期。": [
+    "重复结束日期不能早于开始日期。",
+    "The repeat end date cannot precede the start date."
+  ],
+  "開始與結束時間不能相同；全天請使用 00:00–24:00。": [
+    "开始与结束时间不能相同；全天请使用 00:00–24:00。",
+    "Start and end cannot be identical; use 00:00–24:00 for all day."
+  ],
+  "每週重複日期不正確。": [
+    "每周重复日期不正确。",
+    "Invalid weekly repeat days."
+  ],
+  "找不到這一次重複事項。": [
+    "找不到这一次重复事项。",
+    "This occurrence was not found."
+  ],
+  "請移到未來七天內的有效時段。": [
+    "请移到未来七天内的有效时段。",
+    "Move to a valid time in the next seven days."
+  ],
+  "固定事項資料不正確。": [
+    "固定事项数据不正确。",
+    "Invalid event data."
+  ],
+  "請填寫半小時單位的時間，例如 09:00 或 09:30。": [
+    "请填写半小时单位的时间，例如 09:00 或 09:30。",
+    "Enter a half-hour time, e.g. 09:00 or 09:30."
+  ],
+  "固定事項名稱或識別碼不正確。": [
+    "固定事项名称或标识不正确。",
+    "Invalid event name or ID."
+  ],
+  "事項結束日期不正確。": [
+    "事项结束日期不正确。",
+    "Invalid event end date."
+  ],
+  "事項類型或重複規則不正確。": [
+    "事项类型或重复规则不正确。",
+    "Invalid event type or repeat rule."
+  ],
+  "單次事項修改資料不正確。": [
+    "单次事项修改数据不正确。",
+    "Invalid occurrence override."
+  ],
+  "事項時段不正確。": [
+    "事项时段不正确。",
+    "Invalid event time range."
+  ],
+  "單次事項修改格式不正確。": [
+    "单次事项修改格式不正确。",
+    "Invalid occurrence override format."
+  ],
+  "時間以半小時為單位，範圍為 00:00–24:00。": [
+    "时间以半小时为单位，范围为 00:00–24:00。",
+    "Time must be 00:00–24:00 in half-hour steps."
+  ],
+  "前移建議已更新，請重新整理後再確認。": [
+    "前移建议已更新，请刷新后再确认。",
+    "The move proposal changed. Refresh before approving."
+  ],
+  "實際投入至少半小時，且不能跨過午夜。": [
+    "实际投入至少半小时，且不能跨过午夜。",
+    "Time logged must be at least half an hour and cannot cross midnight."
+  ],
+  "這段時間已記錄過投入，請檢查開始時間。": [
+    "这段时间已记录过投入，请检查开始时间。",
+    "Time has already been logged here. Check the start time."
+  ],
+  "這段安排已更新，請重新整理後再拖動。": [
+    "这段安排已更新，请刷新后再拖动。",
+    "This block changed. Refresh before dragging."
+  ],
+  "找不到這份待做任務。": [
+    "找不到这份待做任务。",
+    "Active task not found."
+  ],
+  "任務不能拖過午夜；可先分成較短時段。": [
+    "任务不能拖过午夜；可先分成较短时段。",
+    "A task cannot be dragged across midnight; use shorter blocks."
+  ],
+  "這裡有固定事項、受保護私人時間，或超出任務期限／可規劃範圍。": [
+    "这里有固定事项、受保护私人时间，或超出任务期限／可规划范围。",
+    "This slot conflicts with a fixed event, protected personal time, the deadline or planning range."
+  ],
+  "這段時間已有其他任務，請選擇空檔。": [
+    "这段时间已有其他任务，请选择空档。",
+    "Another task occupies this time. Choose a free slot."
+  ],
+  "請填寫時間，例如 18:00 或 18:30。": [
+    "请填写时间，例如 18:00 或 18:30。",
+    "Enter a time, e.g. 18:00 or 18:30."
+  ],
+  "未知的排程選擇。": [
+    "未知的排程选择。",
+    "Unknown scheduling action."
+  ],
+  "同一天的可用時段不能重疊。": [
+    "同一天的可用时段不能重叠。",
+    "Available windows on the same day cannot overlap."
+  ],
+  "拖動時段不正確。": [
+    "拖动时段不正确。",
+    "Invalid drag time range."
+  ],
+  "時段結束必須晚於開始。休息日請留空。": [
+    "时段结束必须晚于开始。休息日请留空。",
+    "End time must follow start. Leave days off blank."
+  ],
+  "不支援的資料格式。": [
+    "不支持的数据格式。",
+    "Unsupported data format."
+  ],
+  "缺少任務或可用時間資料。": [
+    "缺少任务或可用时间数据。",
+    "Task or availability data is missing."
+  ],
+  "投入紀錄不正確。": [
+    "投入记录不正确。",
+    "Invalid time logs."
+  ],
+  "可用時段格式不正確。": [
+    "可用时段格式不正确。",
+    "Invalid availability format."
+  ],
+  "私人時間或規劃模式不正確。": [
+    "私人时间或规划模式不正确。",
+    "Invalid personal time or planning mode."
+  ],
+  "語言設定不正確。": [
+    "语言设置不正确。",
+    "Invalid language setting."
+  ],
+  "工作日設定不正確。": [
+    "工作日设置不正确。",
+    "Invalid working weekdays."
+  ],
+  "任務欄位不正確。": [
+    "任务字段不正确。",
+    "Invalid task fields."
+  ],
+  "任務名稱或識別碼不正確。": [
+    "任务名称或标识不正确。",
+    "Invalid task name or ID."
+  ],
+  "任務工時不正確。": [
+    "任务工时不正确。",
+    "Invalid task hours."
+  ],
+  "圓點參考工時不正確。": [
+    "圆点参考工时不正确。",
+    "Invalid reference hours."
+  ],
+  "開始日晚於截止日。": [
+    "开始日晚于截止日。",
+    "Start date follows the deadline."
+  ],
+  "任務識別碼重複。": [
+    "任务标识重复。",
+    "Duplicate task ID."
+  ],
+  "可用時間不正確。": [
+    "可用时间不正确。",
+    "Invalid available time."
+  ],
+  "可用時間須以半小時為單位。": [
+    "可用时间须以半小时为单位。",
+    "Available time must use half-hour steps."
+  ],
+  "投入紀錄欄位不正確。": [
+    "投入记录字段不正确。",
+    "Invalid time log fields."
+  ],
+  "當日投入超過 24 小時。": [
+    "当日投入超过 24 小时。",
+    "Time logged exceeds 24 hours in one day."
+  ],
+  "可用時段重疊。": [
+    "可用时段重叠。",
+    "Available windows overlap."
+  ],
+  "行程格式不正確。": [
+    "行程格式不正确。",
+    "Invalid schedule format."
+  ],
+  "前移建議格式不正確。": [
+    "前移建议格式不正确。",
+    "Invalid move proposal format."
+  ],
+  "無法讀取資料，原檔已保留。請先備份並修復資料檔，或將其改名後重新啟動。": [
+    "无法读取数据，原文件已保留。请先备份并修复数据文件，或将其改名后重新启动。",
+    "Could not read data. The original file is preserved. Back it up and repair or rename it before restarting."
+  ],
+  "原資料格式已改變，請先檢查檔案後再儲存。": [
+    "原数据格式已改变，请先检查文件后再保存。",
+    "The original data format changed. Check the file before saving."
+  ],
+  "未完成的 DDL 任務必須有剩餘工時。": [
+    "未完成的 DDL 任务必须有剩余工时。",
+    "An unfinished deadline task must have remaining hours."
+  ],
+  "長期目標不應有 DDL 或剩餘工時。": [
+    "长期目标不应有 DDL 或剩余工时。",
+    "Long-term goals cannot have a deadline or remaining hours."
+  ],
+  "投入時間不正確。": [
+    "投入时间不正确。",
+    "Invalid logged time."
+  ],
+  "可用時段須以半小時為單位。": [
+    "可用时段须以半小时为单位。",
+    "Available windows must use half-hour steps."
+  ],
+  "行程時段不正確。": [
+    "行程时段不正确。",
+    "Invalid schedule block."
+  ],
+  "行程重疊。": [
+    "行程重叠。",
+    "Schedule blocks overlap."
+  ],
+  "表單大小不正確。": [
+    "表单大小不正确。",
+    "Invalid form size."
+  ],
+  "請先確認前移，或選擇保留原安排，再修改任務與時段。": [
+    "请先确认前移，或选择保留原安排，再修改任务与时段。",
+    "Approve or reject the pending move proposal before editing tasks or times."
+  ],
+  "頁面已過期，請重新整理。": [
+    "页面已过期，请刷新。",
+    "This page has expired. Please refresh."
+  ],
+  "儲存失敗，原有資料未更改。": [
+    "保存失败，原有数据未更改。",
+    "Save failed. Original data is unchanged."
+  ],
+  "未儲存：": [
+    "未保存：",
+    "Not saved: "
+  ],
+  "留白 Planwise · 任務與時間": [
+    "留白 Planwise · 任务与时间",
+    "Planwise · Tasks & time"
+  ],
+  "留白，給接下來的自己。": [
+    "留白，给接下来的自己。",
+    "Room for your future self."
+  ],
+  "固定事項不能移動；如有需要，請編輯整個系列或只移除這一次。": [
+    "固定事项不能移动；如有需要，请编辑整个系列或只移除这一次。",
+    "Fixed events cannot be moved. Edit the series or remove this occurrence instead."
+  ],
+  "這一次事項已移除。": [
+    "这一次事项已移除。",
+    "This occurrence has already been removed."
+  ],
+  "只移除這一次": [
+    "只移除这一次",
+    "Remove only this occurrence"
+  ],
+  "移除哪一天的事項": [
+    "移除哪一天的事项",
+    "Occurrence start date to remove"
+  ],
+  "只移除此日期開始的那一次，其他日期照常；跨午夜的部分會一併移除。": [
+    "只移除此日期开始的那一次，其他日期照常；跨午夜的部分会一并移除。",
+    "Remove only the occurrence starting on this date, including its overnight part. Other dates remain unchanged."
+  ],
+  "移除這一次事項": [
+    "移除这一次事项",
+    "Remove this occurrence"
+  ],
+  "原安排仍可記錄與調整；半透明是建議位置，只有確認後才會採用。": [
+    "原安排仍可记录与调整；半透明是建议位置，只有确认后才会采用。",
+    "Keep working with your original schedule. Translucent positions are suggestions and apply only after approval."
+  ],
+  "每月若沒有同一天，該月略過。儲存會更新整個系列，並保留已移除的日期。固定事項不能拖動或單次移動。": [
+    "每月若没有同一天，该月略过。保存会更新整个系列，并保留已移除的日期。固定事项不能拖动或单次移动。",
+    "Months without this date are skipped. Saving updates the series and preserves cancelled dates. Fixed events cannot be dragged or moved individually."
+  ],
+  "已儲存，原安排保留；你可以繼續操作，或查看新的前移建議。": [
+    "已保存，原安排保留；你可以继续操作，或查看新的前移建议。",
+    "Saved with your original schedule retained. Keep working or review the updated move suggestion."
+  ],
+  "已移除這一次事項，其他日期照常；釋放的時間已留白。": [
+    "已移除这一次事项，其他日期照常；释放的时间已留白。",
+    "This occurrence was removed. Other dates stay unchanged; released time stays free."
+  ],
+  "有前移建議，可稍後查看": [
+    "有前移建议，可稍后查看",
+    "Move suggestion available — review when ready"
+  ],
+  "有前移建議，可稍後查看 →": [
+    "有前移建议，可稍后查看 →",
+    "Move suggestion available — review when ready →"
+  ]
+}
