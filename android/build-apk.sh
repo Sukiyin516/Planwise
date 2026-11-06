@@ -12,7 +12,7 @@ for name in main.py planner.py storage.py timetable.py events.py holidays.py i18
 done
 printf 'sdk.dir=%s\n' "$ANDROID_HOME" > "$android_dir/local.properties"
 cd "$android_dir"
-./gradlew --no-daemon --console=plain assembleDebug
+bash ./gradlew --no-daemon --console=plain assembleDebug
 mkdir -p "$planner_dir/output/android"
 cp app/build/outputs/apk/debug/app-debug.apk "$planner_dir/output/android/Planwise-0.5.1-preview.apk"
 "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose "$planner_dir/output/android/Planwise-0.5.1-preview.apk"
