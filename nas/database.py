@@ -45,6 +45,12 @@ class Database:
                 CREATE TABLE IF NOT EXISTS backups (
                     id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL,
                     version INTEGER NOT NULL, data TEXT NOT NULL, at INTEGER NOT NULL);
+                CREATE TABLE IF NOT EXISTS invitations (
+                    id INTEGER PRIMARY KEY, code_hash TEXT UNIQUE NOT NULL,
+                    created_by INTEGER NOT NULL REFERENCES users(id),
+                    created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL,
+                    used_by INTEGER REFERENCES users(id), used_at INTEGER,
+                    revoked_at INTEGER);
             ''')
 
     def connect(self):
@@ -67,17 +73,21 @@ class Database:
         finally:
             db.close()
 
-    def create_user(self, username, password, admin=False, db=None):
+    def create_user(self, username, password, admin=False, db=None, language='zh-Hant'):
         if not isinstance(username, str) or not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}', username):
             raise ValueError('Username: 3–40 letters, digits, dots, underscores or hyphens.')
         password_valid(password)
+        if language not in ('zh-Hant','zh-Hans','en'):
+            raise ValueError('Invalid language.')
         hashed = generate_password_hash(password, method='scrypt')
         def insert(connection):
             try:
                 cursor = connection.execute('INSERT INTO users(username,password_hash,is_admin) VALUES(?,?,?)', (username, hashed, int(admin)))
             except sqlite3.IntegrityError:
                 raise ValueError('Username already exists.') from None
-            connection.execute('INSERT INTO plans VALUES(?,?,?,?)', (cursor.lastrowid, 1, json.dumps(empty_state()), int(time.time())))
+            state = empty_state()
+            state['language'] = language
+            connection.execute('INSERT INTO plans VALUES(?,?,?,?)', (cursor.lastrowid, 1, json.dumps(state), int(time.time())))
             return cursor.lastrowid
         if db is not None:
             return insert(db)
@@ -90,6 +100,18 @@ class Database:
         db.execute('DELETE FROM sessions WHERE expires < ?', (now,))
         db.execute('INSERT INTO sessions VALUES(?,?,?,?)', (digest(token), user_id, csrf, now + 7*86400))
         return token, csrf
+
+    def invitations(self, db):
+        """Return administrator metadata, never usable invitation secrets."""
+        now = int(time.time())
+        result = []
+        for row in db.execute('''SELECT i.id,i.created_at,i.expires_at,i.revoked_at,
+                i.used_at,u.username AS used_by FROM invitations i
+                LEFT JOIN users u ON u.id=i.used_by ORDER BY i.id DESC LIMIT 50'''):
+            item = dict(row)
+            item['status'] = 'used' if item['used_at'] is not None else 'revoked' if item['revoked_at'] is not None else 'expired' if item['expires_at'] <= now else 'pending'
+            result.append(item)
+        return result
 
     def backup_to(self, path):
         target = Path(path)

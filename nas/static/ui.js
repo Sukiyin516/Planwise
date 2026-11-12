@@ -48,12 +48,30 @@ const TEXT={
   windows:['舊版自訂可用時段','旧版自定义可用时段'],windowsNote:['匯入資料使用了自訂空檔。可改回全日扣除事項，或繼續沿用。','导入数据使用了自定义空档。可改回全日扣除事项，或继续沿用。'],allDay:['改為全日扣除事項','改为全日扣除事项']
 };
 const EN={map:'Task map',schedule:'Schedule',settings:'Life & settings',room:'A little room for your future self.',intro:'Protect your life first. Make time for your deadlines.',online:'Connected to NAS',offline:'Offline · read only',refresh:'Refresh',readOnly:'Showing the last cached plan. Changes are disabled offline. Reconnect to load the latest data first.',conflict:'Another device updated this plan. Keep a copy of your input, then refresh and review it. This change has not been saved.',uncertain:'Connection lost. This save has not been confirmed. Reconnect and check the latest plan before recording the same effort again.',signin:'Sign in',signout:'Sign out',username:'Username',password:'Password',loginNote:'Use an account created by your NAS administrator. The same account uses the same plan on every device.',privateNote:'Each account has its own plan. This device caches the latest schedule; signing out clears it.',addTask:'Add task',pending:'Pending tasks',goals:'Long-term goals',done:'Completed',urgentImportant:'Urgent · important',laterImportant:'Important · not urgent',urgentOther:'Urgent · less important',laterOther:'When there is time',urgent:'More urgent ↑',important:'More important →',zoomIn:'Zoom in',zoomOut:'Zoom out',mapNote:'Select a dot to view or record effort. Goal dots fill as your invested time increases.',empty:'Leave a little room. Start with one task.',title:'Title',course:'Category / course',type:'Type',deadline:'Task with a deadline',goal:'Long-term goal',due:'Due date',startDate:'Earliest start (optional)',hours:'Remaining hours',target:'Reference hours for dot fill',isImportant:'This matters to me',save:'Save',cancel:'Cancel',edit:'Edit',remove:'Delete task',confirmDelete:'Delete this item?',effort:'What did you work on?',actualStart:'Actual start time',actual:'Hours invested',finished:'The whole task is completed',record:'Record effort',effortNote:'Finishing early frees the remaining time. Earlier moves are suggestions; your current plan stays usable.',invested:'Time invested',goalNote:'A full dot means the reference hours have been reached. It does not mark the goal as completed.',week:'7 days',day:'Day',today:'Today',previous:'Previous day',next:'Next day',calendarNote:'30-minute slots. Drag a task to move it; on mobile, press and hold first. Fixed events are locked.',fixed:'Fixed event',personal:'Personal time',proposal:'Earlier-move suggestion',work:'Recorded effort',proposalNote:'Your current plan remains active. Expand to preview the old and suggested positions in translucent colors.',showSuggestion:'View suggestion',accept:'Accept moves',keep:'Keep current plan',missing:'Unscheduled',overdue:'Overdue',outside_week:'Not fully scheduled this week',deadline_capacity:'Insufficient time before deadline',move:'Adjust this time block',date:'Date',begin:'Start time',end:'End time',moveSave:'Move this task block',addEvent:'Add event',repeat:'Repeat',none:'Does not repeat',daily:'Every day',weekly:'Every week',monthly:'Monthly on this date',workdays:'Every workday',holidays:'Every day off',until:'Repeat until (optional)',weekdays:'Weekly repeat days',eventNote:'An end time before the start crosses midnight. Months without this date are skipped. Fixed events cannot be dragged.',editSeries:'Edit entire series',deleteSeries:'Delete entire series',deleteOnce:'Delete this occurrence only',saveSeries:'Save event series',life:'Make room for your life first',lifeNote:'Set your own classes, shifts and personal time. There are no assumed office hours.',prefs:'Language & planning',language:'Language',workdayNote:'Workdays control workday/day-off repeats and exclude Hong Kong general holidays. Holidays for 2026–2027 are included.',borrow:'Let deadlines within 3 days use personal time',data:'Import, export & offline',export:'Export backup JSON',import:'Import backup',importConfirm:'Replace my entire plan with this backup (the server keeps a pre-import backup)',snapshot:'Download read-only offline snapshot',snapshotNote:'LAN HTTP: an open page works offline. To reopen offline later, download a snapshot or use the NAS APK. Snapshots contain your personal schedule.',security:'Account & security',currentPassword:'Current password',newPassword:'New password (12+ characters)',changePassword:'Change password & sign out all devices',admin:'Create a teammate account',createUser:'Create account',adminNote:'Creates a separate empty plan. The administrator interface does not expose other users’ schedules.',server:'NAS server',changeServer:'Change NAS address',saved:'Saved to NAS',created:'Account created',passwordChanged:'Password changed. Please sign in again.',fileRequired:'Select a backup file first.',fileTooLarge:'Backup must be under 8 MB.',offlineLogin:'Cannot connect to NAS. A previously cached account can be viewed read-only. First sign-in needs a connection.',snapshotLabel:'Read-only snapshot',close:'Close',updated:'Plan updated',unsupportedHolidays:'Full Hong Kong holidays are not included for this year.',windows:'Legacy custom availability',windowsNote:'The imported plan uses custom availability windows. Keep them, or switch to full-day availability minus events.',allDay:'Use full day minus events'};
+Object.assign(TEXT,{
+  register:['創建帳號','创建账号'],registerLink:['以邀請碼建立帳號','用邀请码创建账号'],backToLogin:['已有帳號？返回登入','已有账号？返回登录'],
+  loginNote:['登入即可在所有裝置使用同一張表；新使用者可憑邀請碼建立帳號。','登录即可在所有设备使用同一张表；新用户可凭邀请码创建账号。'],
+  registerNote:['輸入管理員給你的邀請碼，以自己的帳號及密碼建立獨立行程。此處只建立一般帳號。','输入管理员给你的邀请码，用自己的账号和密码创建独立日程。这里只创建普通账号。'],
+  inviteCode:['邀請碼','邀请码'],confirmPassword:['再次輸入密碼','再次输入密码'],
+  invites:['邀請碼管理','邀请码管理'],inviteNote:['每個邀請碼僅用一次，7 天內有效。完整碼只在建立當下顯示，請複製交給使用者；其他設定均屬各人自己的行程。','每个邀请码仅用一次，7 天内有效。完整码只在创建时显示，请复制给使用者；其他设置均属于个人日程。'],
+  generateInvite:['產生邀請碼','生成邀请码'],inviteGenerated:['邀請碼已產生，請複製保存。','邀请码已生成，请复制保存。'],
+  inviteOnce:['請複製這個邀請碼，離開帳號後不再顯示。','请复制这个邀请码，退出账号后不再显示。'],
+  inviteEmpty:['還沒有邀請碼。','还没有邀请码。'],invitePending:['未使用','未使用'],used:['已使用','已使用'],expired:['已到期','已过期'],revoked:['已撤銷','已撤销'],revoke:['撤銷','撤销'],
+  expires:['到期','到期'],inviteRevoked:['邀請碼已撤銷。','邀请码已撤销。'],registered:['帳號已建立並登入。','账号已创建并登录。'],
+  invalidInvite:['邀請碼無效、已使用或已失效，請向管理員索取新碼。','邀请码无效、已使用或已失效，请向管理员索取新码。'],
+  usernameRule:['帳號需為 3–40 個英文字母、數字、點、底線或連字號。','账号须为 3–40 个英文字母、数字、点、下划线或连字符。'],
+  passwordRule:['密碼需為 12–200 字元。','密码须为 12–200 字符。'],passwordMismatch:['兩次輸入的密碼不同。','两次输入的密码不同。'],usernameTaken:['此帳號名稱已被使用，請換一個。','此账号名已被使用，请换一个。'],
+  alreadySignedIn:['請先登出，才可建立另一個帳號。','请先退出，才可创建另一个账号。'],tooManyAttempts:['嘗試次數過多，請 15 分鐘後再試。','尝试次数过多，请 15 分钟后再试。'],
+  registrationUncertain:['連線中斷，帳號是否建立尚未確認；重新連線後可先嘗試登入。','连接中断，账号是否创建尚未确认；重新连接后可先尝试登录。']
+});
+Object.assign(EN,{register:'Create account',registerLink:'Create an account with an invitation',backToLogin:'Already have an account? Sign in',loginNote:'Sign in to use the same plan on all devices, or create an account with an invitation.',registerNote:'Use an invitation from your administrator to create your own account and private plan. This creates a regular account only.',inviteCode:'Invitation code',confirmPassword:'Repeat password',invites:'Invitation management',inviteNote:'Each code can be used once within 7 days. The full code is shown only when created; copy it for the new user. Other settings belong to each user’s own plan.',generateInvite:'Generate invitation',inviteGenerated:'Invitation created. Copy and keep the code.',inviteOnce:'Copy this invitation code. Signing out clears it from this page.',inviteEmpty:'No invitations yet.',invitePending:'Unused',used:'Used',expired:'Expired',revoked:'Revoked',revoke:'Revoke',expires:'Expires',inviteRevoked:'Invitation revoked.',registered:'Account created and signed in.',invalidInvite:'Invalid, used or expired invitation. Ask your administrator for a new code.',usernameRule:'Use 3–40 letters, digits, dots, underscores or hyphens for the username.',passwordRule:'Use 12–200 characters for the password.',passwordMismatch:'The two passwords do not match.',usernameTaken:'This username is already in use.',alreadySignedIn:'Sign out before creating another account.',tooManyAttempts:'Too many attempts. Try again in 15 minutes.',registrationUncertain:'Connection lost. Account creation is unconfirmed. Reconnect and try signing in first.'});
 let language='zh-Hant';
 try{language=localStorage.getItem('planwise-language')||language;}catch{}
 const embedded=document.getElementById('offline-data');
 const CACHE_KEY='planwise-nas-snapshot-v1';
 let snap=embedded?JSON.parse(embedded.textContent):cached();
 let offline=!!snap,busy=false,syncing=false,dirty=false,tab=new URLSearchParams(location.search).get('tab')||'map',dayIndex=0,zoom=1,showProposal=false,remoteChanged=false;
+let authMode='login',authSubmitting=false,authEpoch=0,issuedInvite='';
 let span=new URLSearchParams(location.search).get('span')==='day'?'day':'week';
 const $=selector=>document.querySelector(selector);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -66,9 +84,10 @@ function cached(){try{const data=JSON.parse(localStorage.getItem(CACHE_KEY));ret
 function clearCache(){try{localStorage.removeItem(CACHE_KEY);}catch{}}
 function adopt(data){
   if(data.api_version!==1)throw new Error('This server needs a newer client.');
-  if(snap&&snap.user.id!==data.user.id)clearCache();
+  if(!snap||snap.user.id!==data.user.id){clearCache();issuedInvite='';}
   snap=data;language=data.state.language;offline=false;remoteChanged=false;
-  const cache=structuredClone(data);delete cache.csrf;
+  authMode='login';
+  const cache=structuredClone(data);delete cache.csrf;delete cache.invitations;
   try{localStorage.setItem(CACHE_KEY,JSON.stringify(cache));localStorage.setItem('planwise-language',language);}catch{}
 }
 async function api(path,data){
@@ -83,19 +102,22 @@ async function api(path,data){
 function lockWrites(){document.querySelectorAll('[data-write],form input,form select,form textarea,form button').forEach(el=>el.disabled=offline||busy);document.body.classList.toggle('readonly',offline);}
 function markOffline(message){offline=true;if(!snap){snap=cached();if(snap)language=snap.state.language;render();}else updateConnection();if(message)notify(message);}
 async function sync(force=false){
-  if(embedded||busy||syncing)return;
+  if(embedded||busy||syncing||authSubmitting)return;
   syncing=true;
+  const epoch=authEpoch;
   try{
     const data=await api('/api/state');
+    if(epoch!==authEpoch)return;
     if(!force&&(!$('#bubble').hidden||dirty)&&snap&&data.user.id===snap.user.id){
       if(data.version!==snap.version){remoteChanged=true;updateConnection();}
       snap.csrf=data.csrf;offline=false;updateConnection();return;
     }
-    if(!force&&snap&&!offline&&data.version===snap.version&&data.user.id===snap.user.id)return;
+    if(!force&&snap&&!offline&&data.version===snap.version&&data.user.id===snap.user.id&&JSON.stringify(data.invitations)===JSON.stringify(snap.invitations))return;
     const scrolling=$('.calendar-wrap')?.scrollTop;
     adopt(data);if(force)closeBubble();render();if(scrolling!==undefined&&$('.calendar-wrap'))$('.calendar-wrap').scrollTop=scrolling;
   }catch(error){
-    if(error.status===401){snap=null;offline=false;clearCache();closeBubble();render();}
+    if(epoch!==authEpoch)return;
+    if(error.status===401){const hadPlan=!!snap;snap=null;offline=false;clearCache();closeBubble();if(hadPlan)render();else updateConnection();}
     else if(!error.status)markOffline();
     else if(force)notify(error.message);
   }finally{syncing=false;}
@@ -127,16 +149,59 @@ async function change(action,fields={},version=snap?.version){
 }
 function formError(message){const el=$('#bubble .error');if(el){el.hidden=false;el.textContent=message;el.scrollIntoView({block:'nearest'});}else notify(message);}
 function languageOptions(value){return ['zh-Hant','zh-Hans','en'].map((code,i)=>`<option value="${code}" ${value===code?'selected':''}>${['繁體中文','简体中文','English'][i]}</option>`).join('');}
+function authPage(){
+  const registering=authMode==='register';
+  const disabled=registering&&offline?'disabled':'';
+  return `<main class="login paper" id="content"><div class="eyebrow">PLANWISE / NAS EDITION</div><h1>${language==='en'?'Planwise':'留白'}</h1>${registering?`<h2 class="auth-title">${esc(t('register'))}</h2>`:''}<p class="subtitle">${esc(t(registering?'registerNote':'loginNote'))}</p><form id="${registering?'register-form':'login-form'}">${registering?`<label for="invite-code">${esc(t('inviteCode'))}</label><input id="invite-code" name="invite_code" autocomplete="off" autocapitalize="none" spellcheck="false" required minlength="16" maxlength="80" ${disabled}>`:''}<label for="username">${esc(t('username'))}</label><input id="username" name="username" autocomplete="username" required maxlength="40" ${registering?'minlength="3" pattern="[A-Za-z0-9_.\\-]{3,40}"':''} ${disabled}><label for="password">${esc(t('password'))}</label><input id="password" name="password" type="password" autocomplete="${registering?'new-password':'current-password'}" required ${registering?'minlength="12"':''} maxlength="200" ${disabled}>${registering?`<label for="confirm-password">${esc(t('confirmPassword'))}</label><input id="confirm-password" name="password_confirm" type="password" autocomplete="new-password" required minlength="12" maxlength="200" ${disabled}>`:''}<button class="primary" type="submit" ${disabled}>${esc(t(registering?'register':'signin'))} →</button></form><button class="auth-switch" id="auth-switch" type="button">${esc(t(registering?'backToLogin':'registerLink'))}</button><label for="login-language">${esc(t('language'))}</label><select id="login-language">${languageOptions(language)}</select><footer>${esc(t('privateNote'))}</footer>${offline?`<div id="offline-banner" class="banner warn">${esc(t('offlineLogin'))}<button id="retry-connect">${esc(t('refresh'))}</button></div>`:''}${/PlanwiseNAS/.test(navigator.userAgent)?`<p class="foot"><a href="/client/change-server">${esc(t('changeServer'))}</a></p>`:''}</main>`;
+}
+function bindAuth(){
+  const form=$('#login-form')||$('#register-form');
+  form.onsubmit=submitAuth;
+  $('#auth-switch').onclick=()=>{if(authSubmitting)return;authMode=authMode==='login'?'register':'login';render();};
+  if($('#retry-connect'))$('#retry-connect').onclick=()=>sync(true);
+  $('#login-language').onchange=event=>{language=event.target.value;render();};
+}
+async function submitAuth(event){
+  event.preventDefault();
+  if(authSubmitting)return;
+  const registering=authMode==='register';
+  if(registering&&offline){notify(t('offlineLogin'));return;}
+  const fields=fieldsFrom(event.target);
+  if(registering&&fields.password!==fields.password_confirm){notify(t('passwordMismatch'));return;}
+  fields.language=language;
+  authSubmitting=true;authEpoch++;
+  const button=event.submitter;if(button)button.disabled=true;
+  clearCache();
+  try{
+    await api(registering?'/api/register':'/api/login',fields);
+    const current=await api('/api/state');
+    adopt(current);render();if(registering)notify(t('registered'));
+  }catch(error){
+    const key={invalid_invitation:'invalidInvite',invalid_username:'usernameRule',password_length:'passwordRule',password_mismatch:'passwordMismatch',username_taken:'usernameTaken',already_signed_in:'alreadySignedIn',rate_limited:'tooManyAttempts'}[error.code];
+    notify(!error.status?t(registering?'registrationUncertain':'offlineLogin'):key?t(key):error.message);
+  }finally{authSubmitting=false;if(button)button.disabled=false;}
+}
+function invitationPanel(){
+  const rows=snap.invitations||[];
+  return `<section class="paper card" id="invite-panel"><h2>${esc(t('invites'))}</h2><p class="subtitle">${esc(t('inviteNote'))}</p><button class="primary" data-invite-action="create" data-write>${esc(t('generateInvite'))}</button>${issuedInvite?`<div class="invite-code"><label for="issued-code">${esc(t('inviteOnce'))}</label><input id="issued-code" value="${esc(issuedInvite)}" readonly spellcheck="false" autocomplete="off"></div>`:''}<div class="invite-list">${rows.map(row=>`<div class="row"><div><strong>#${row.id} · ${esc(t(row.status==='pending'?'invitePending':row.status))}</strong>${row.used_by?`<small>${esc(row.used_by)}</small>`:''}<small>${esc(t('expires'))} ${new Date(row.expires_at*1000).toLocaleString(locale())}</small></div>${row.status==='pending'?`<button class="danger" data-invite-action="revoke" data-invite-id="${row.id}" data-write>${esc(t('revoke'))}</button>`:''}</div>`).join('')||`<p class="subtitle">${esc(t('inviteEmpty'))}</p>`}</div></section>`;
+}
+async function invitationAction(action,id){
+  if(offline||busy||!snap?.user.is_admin)return;
+  busy=true;lockWrites();
+  try{
+    const result=await api('/api/invitations',{action,...(id?{id:Number(id)}:{})});
+    snap.invitations=result.invitations;
+    if(result.code)issuedInvite=result.code;
+    else issuedInvite='';
+    render();notify(t(action==='create'?'inviteGenerated':'inviteRevoked'));
+  }catch(error){notify(error.message);}
+  finally{busy=false;lockWrites();}
+}
 function render(){
   dirty=false;
   if(snap)language=snap.state.language;
   document.documentElement.lang=language;
-  if(!snap){
-    $('#app').innerHTML=`<main class="login paper" id="content"><div class="eyebrow">PLANWISE / NAS EDITION</div><h1>${language==='en'?'Planwise':'留白'}</h1><p class="subtitle">${esc(t('loginNote'))}</p><form id="login-form"><label for="username">${esc(t('username'))}</label><input id="username" name="username" autocomplete="username" required maxlength="40"><label for="password">${esc(t('password'))}</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="200"><button class="primary">${esc(t('signin'))} →</button></form><label for="login-language">${esc(t('language'))}</label><select id="login-language">${languageOptions(language)}</select><footer>${esc(t('privateNote'))}</footer>${offline?`<div class="banner warn">${esc(t("offlineLogin"))}<button id="retry-connect">${esc(t("refresh"))}</button></div>`:""}${/PlanwiseNAS/.test(navigator.userAgent)?`<p class="foot"><a href="/client/change-server">${esc(t('changeServer'))}</a></p>`:''}</main>`;
-    $('#login-form').onsubmit=async event=>{event.preventDefault();const fields=Object.fromEntries(new FormData(event.target));event.submitter.disabled=true;clearCache();try{await api('/api/login',fields);await sync(true);}catch(error){notify(error.status?error.message:t('offlineLogin'));}finally{event.submitter.disabled=false;}};
-    if($('#retry-connect'))$('#retry-connect').onclick=()=>sync(true);
-    $('#login-language').onchange=event=>{language=event.target.value;render();};return;
-  }
+  if(!snap){issuedInvite='';$('#app').innerHTML=authPage();bindAuth();return;}
   if(!['map','schedule','settings'].includes(tab))tab='map';
   $('#app').innerHTML=`<div class="shell"><header><div class="brand">${language==='en'?'Planwise':'留白'} <span>PLANWISE / NAS</span></div><div class="account"><span>${esc(snap.user.username)}</span><span id="connection">${connection()}</span><button class="quiet" data-cmd="logout" data-write>${esc(t('signout'))}</button></div></header><nav aria-label="Navigation">${['map','schedule','settings'].map(key=>`<button class="${tab===key?'active':''}" data-tab="${key}">${esc(t(key))}</button>`).join('')}</nav><main id="content">${offline?`<div id="offline-banner" class="banner warn">${esc(embedded?t('snapshotLabel'):t('readOnly'))} · ${new Date(snap.saved_at*1000).toLocaleString(locale())}${!embedded?` <button data-cmd="refresh">${esc(t('refresh'))}</button>`:''}</div>`:''}${tab==='map'?mapPage():tab==='schedule'?schedulePage():settingsPage()}</main><p class="foot">${esc(t('server'))}: ${esc(embedded?'offline snapshot':location.origin)} · v${snap.version}${/PlanwiseNAS/.test(navigator.userAgent)?` · <a href="/client/change-server">${esc(t('changeServer'))}</a>`:''}</p></div>`;
   bind();lockWrites();
@@ -170,7 +235,7 @@ function schedulePage(){
 }
 function checks(name,selected){return `<div class="weekchecks">${Array.from({length:7},(_,i)=>`<label class="check"><input type="checkbox" name="${name}" value="${i}" ${selected.includes(i)?'checked':''}>${weekday(i)}</label>`).join('')}</div>`;}
 function settingsPage(){
-  return `<div class="heading"><div><div class="eyebrow">LIFE COMES FIRST</div><h1>${esc(t('life'))}</h1><p class="subtitle">${esc(t('lifeNote'))}</p></div><button class="primary" data-cmd="add-event" data-write>＋ ${esc(t('addEvent'))}</button></div><div class="columns"><div><section class="paper card"><h2>${esc(t('fixed'))} & ${esc(t('personal'))}</h2>${snap.state.events.map(event=>`<div class="row"><button data-event="${esc(event.id)}">${event.category==='fixed'?'⌑':'☾'} ${esc(event.title)}<small>${time(event.start)}–${time(event.end%1440||1440)} · ${esc(t(event.repeat))}</small></button></div>`).join('')||`<p class="empty">${esc(t('empty'))}</p>`}</section><section class="paper card"><h2>${esc(t('prefs'))}</h2><form id="prefs-form"><label for="language">${esc(t('language'))}</label><select name="language" id="language">${languageOptions(language)}</select><p class="subtitle">${esc(t('workdayNote'))}</p>${checks('workdays',snap.state.workdays)}<button class="primary" data-write>${esc(t('save'))}</button></form><form id="policy-form"><label class="check"><input name="borrow_private" type="checkbox" value="yes" ${snap.state.borrow_private?'checked':''} data-write>${esc(t('borrow'))}</label><button data-write>${esc(t('save'))}</button></form>${snap.state.time_model==='custom'?`<hr><h3>${esc(t('windows'))}</h3><p class="subtitle">${esc(t('windowsNote'))}</p><button data-cmd="full-day" data-write>${esc(t('allDay'))}</button>`:''}${!snap.view.holidays_supported?`<p class="subtitle">${esc(t('unsupportedHolidays'))}</p>`:''}</section></div><div><section class="paper card"><h2>${esc(t('data'))}</h2><div class="form-actions"><a href="/api/export" data-download="backup">${esc(t('export'))}</a><a href="/api/offline" data-download="offline">${esc(t('snapshot'))}</a></div><p class="subtitle">${esc(t('snapshotNote'))}</p><form id="import-form"><label for="backup-file">JSON</label><input type="file" accept=".json,application/json" id="backup-file" data-write required><label class="check"><input type="checkbox" name="replace_confirm" value="yes" required data-write>${esc(t('importConfirm'))}</label><button data-write>${esc(t('import'))}</button></form></section><section class="paper card"><h2>${esc(t('security'))}</h2><form id="password-form"><label for="current-password">${esc(t('currentPassword'))}</label><input id="current-password" name="current" type="password" autocomplete="current-password" required maxlength="200" data-write><label for="new-password">${esc(t('newPassword'))}</label><input id="new-password" name="password" type="password" minlength="12" maxlength="200" autocomplete="new-password" required data-write><button data-write>${esc(t('changePassword'))}</button></form></section>${snap.user.is_admin?`<section class="paper card"><h2>${esc(t('admin'))}</h2><p class="subtitle">${esc(t('adminNote'))}</p><form id="user-form"><label for="new-user">${esc(t('username'))}</label><input id="new-user" name="username" autocomplete="off" pattern="[A-Za-z0-9_.\-]{3,40}" required data-write><label for="user-password">${esc(t('newPassword'))}</label><input id="user-password" name="password" type="password" minlength="12" maxlength="200" autocomplete="new-password" required data-write><button data-write>${esc(t('createUser'))}</button></form></section>`:''}</div></div>`;
+  return `<div class="heading"><div><div class="eyebrow">LIFE COMES FIRST</div><h1>${esc(t('life'))}</h1><p class="subtitle">${esc(t('lifeNote'))}</p></div><button class="primary" data-cmd="add-event" data-write>＋ ${esc(t('addEvent'))}</button></div><div class="columns"><div><section class="paper card"><h2>${esc(t('fixed'))} & ${esc(t('personal'))}</h2>${snap.state.events.map(event=>`<div class="row"><button data-event="${esc(event.id)}">${event.category==='fixed'?'⌑':'☾'} ${esc(event.title)}<small>${time(event.start)}–${time(event.end%1440||1440)} · ${esc(t(event.repeat))}</small></button></div>`).join('')||`<p class="empty">${esc(t('empty'))}</p>`}</section><section class="paper card"><h2>${esc(t('prefs'))}</h2><form id="prefs-form"><label for="language">${esc(t('language'))}</label><select name="language" id="language">${languageOptions(language)}</select><p class="subtitle">${esc(t('workdayNote'))}</p>${checks('workdays',snap.state.workdays)}<button class="primary" data-write>${esc(t('save'))}</button></form><form id="policy-form"><label class="check"><input name="borrow_private" type="checkbox" value="yes" ${snap.state.borrow_private?'checked':''} data-write>${esc(t('borrow'))}</label><button data-write>${esc(t('save'))}</button></form>${snap.state.time_model==='custom'?`<hr><h3>${esc(t('windows'))}</h3><p class="subtitle">${esc(t('windowsNote'))}</p><button data-cmd="full-day" data-write>${esc(t('allDay'))}</button>`:''}${!snap.view.holidays_supported?`<p class="subtitle">${esc(t('unsupportedHolidays'))}</p>`:''}</section></div><div><section class="paper card"><h2>${esc(t('data'))}</h2><div class="form-actions"><a href="/api/export" data-download="backup">${esc(t('export'))}</a><a href="/api/offline" data-download="offline">${esc(t('snapshot'))}</a></div><p class="subtitle">${esc(t('snapshotNote'))}</p><form id="import-form"><label for="backup-file">JSON</label><input type="file" accept=".json,application/json" id="backup-file" data-write required><label class="check"><input type="checkbox" name="replace_confirm" value="yes" required data-write>${esc(t('importConfirm'))}</label><button data-write>${esc(t('import'))}</button></form></section><section class="paper card"><h2>${esc(t('security'))}</h2><form id="password-form"><label for="current-password">${esc(t('currentPassword'))}</label><input id="current-password" name="current" type="password" autocomplete="current-password" required maxlength="200" data-write><label for="new-password">${esc(t('newPassword'))}</label><input id="new-password" name="password" type="password" minlength="12" maxlength="200" autocomplete="new-password" required data-write><button data-write>${esc(t('changePassword'))}</button></form></section>${snap.user.is_admin?invitationPanel():''}</div></div>`;
 }
 function openBubble(html,anchor){
   const bubble=$('#bubble');bubble.innerHTML=`<button class="close" aria-label="${esc(t('close'))}">×</button><div class="error" role="alert" hidden></div>${html}`;bubble.hidden=false;
@@ -227,13 +292,14 @@ function bind(){
   if($('#policy-form'))$('#policy-form').onsubmit=event=>{event.preventDefault();change('save_policy',fieldsFrom(event.target));};
   if($('#import-form'))$('#import-form').onsubmit=async event=>{event.preventDefault();const file=$('#backup-file').files[0];if(!file)return notify(t('fileRequired'));if(file.size>8_000_000)return notify(t('fileTooLarge'));const version=snap.version;const text=await file.text();change('import_data',{backup_json:text,replace_confirm:'yes'},version);};
   if($('#password-form'))$('#password-form').onsubmit=event=>accountAction(event,'/api/password',true);
-  if($('#user-form'))$('#user-form').onsubmit=event=>accountAction(event,'/api/users',false);
+  document.querySelectorAll('[data-invite-action]').forEach(el=>el.onclick=()=>invitationAction(el.dataset.inviteAction,el.dataset.inviteId));
+  if($('#issued-code'))$('#issued-code').onfocus=event=>event.target.select();
   document.querySelectorAll('[data-download]').forEach(el=>el.onclick=event=>{if(offline){event.preventDefault();notify(t('readOnly'));}});
 }
-async function accountAction(event,path,logout){event.preventDefault();if(offline||busy)return;busy=true;lockWrites();try{await api(path,fieldsFrom(event.target));event.target.reset();if(logout){clearCache();snap=null;render();}notify(t(logout?'passwordChanged':'created'));}catch(error){notify(error.message);}finally{busy=false;lockWrites();}}
+async function accountAction(event,path,logout){event.preventDefault();if(offline||busy)return;busy=true;lockWrites();try{await api(path,fieldsFrom(event.target));event.target.reset();if(logout){authEpoch++;clearCache();snap=null;render();}notify(t(logout?'passwordChanged':'created'));}catch(error){notify(error.message);}finally{busy=false;lockWrites();}}
 async function command(cmd,anchor){
   if(cmd==='refresh')return sync(true);
-  if(cmd==='logout'){if(offline)return;try{await api('/api/logout',{});snap=null;clearCache();closeBubble();render();}catch(error){notify(error.message);}return;}
+  if(cmd==='logout'){if(offline)return;authEpoch++;try{await api('/api/logout',{});snap=null;clearCache();closeBubble();render();}catch(error){notify(error.message);}return;}
   if(cmd==='add-task')return editTask(null,anchor);
   if(cmd==='add-event')return editEvent(null,anchor);
   if(cmd==='zoom-in')zoom=Math.min(2,zoom+.25);

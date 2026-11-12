@@ -37,5 +37,12 @@ jobs:
           docker restart nas-test
           sleep 4
           curl --fail -b /tmp/nas-cookies http://127.0.0.1:8088/api/state
+      - name: Build previous release and verify in-place database upgrade
+        run: |
+          git fetch --depth 1 origin refs/tags/nas-v0.2.0-preview
+          mkdir /tmp/planwise-previous
+          git archive FETCH_HEAD | tar -x -C /tmp/planwise-previous
+          docker build --platform linux/amd64 -f /tmp/planwise-previous/nas/Dockerfile -t planwise-nas:previous /tmp/planwise-previous
+          python nas/check_upgrade.py
       - if: failure()
         run: docker logs nas-test || true

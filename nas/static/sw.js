@@ -1,4 +1,4 @@
-const CACHE='planwise-nas-shell-v2';
+const CACHE='planwise-nas-shell-v3';
 const SHELL=['/','/static/ui.css','/static/ui.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('planwise-nas-shell-')&&key!==CACHE).map(key=>caches.delete(key))))));

@@ -4,7 +4,7 @@
 
 | 使用方式 | 資料與連線 | 安裝 |
 | --- | --- | --- |
-| NAS 網頁＋NAS APK 0.2.0 Preview | NAS 上每帳號一張表，同帳號跨裝置同步；離線唯讀 | [詳細教程與管理員密碼設定](nas/INSTALL.md) |
+| NAS 網頁＋NAS APK 0.3.0 Preview | NAS 上每帳號一張表，同帳號跨裝置同步；離線唯讀 | [詳細教程與管理員密碼設定](nas/INSTALL.md) |
 | 本地 Android 0.5.2 Preview | 手機內獨立 JSON，不需要 NAS 或網絡 | [本地 Android 說明](android/README.md) |
 
 原 Mac／Windows 本地網頁版、桌面啟動器及分享工具已移除。Android 需要的內置介面移至 `android/runtime/`，只作 APK 執行環境。NAS 網頁版繼續提供服務。
@@ -13,7 +13,8 @@
 
 - **[直接查看／複製 Compose](compose.yaml)**：只取這一個檔案即可在 fnOS 建置；預設網址 `http://NAS的IP:9473/`。
 - **[安裝教程](nas/INSTALL.md)**：fnOS 圖形介面、終端部署、管理員帳號與密碼、重設密碼、升級與備份。
-- **[版本下載](https://github.com/Z3ych1k/Planwise/releases/tag/nas-v0.2.0-preview)**：部署包、NAS APK、本地 APK。
+- **[版本下載](https://github.com/Z3ych1k/Planwise/releases/tag/nas-v0.3.0-preview)**：部署包、NAS APK、Compose 及教程；本地 Android 仍用 0.5.2。
+- **[已有 NAS 的保留資料更新步驟](nas/UPGRADE.md)**：先備份，再更新原 Compose 專案；網頁重新整理，NAS APK 覆蓋升級。
 - [NAS 說明與驗證](nas/README.md)。版本在 `feature/nas-server`，組員 fork 分支未改動。
 
 已啟動容器但未設帳號：在**容器互動終端**執行：
@@ -23,6 +24,8 @@ python -m nas.manage create-user admin --admin
 ```
 
 按提示輸入兩次**自己設定、至少 12 字元**的密碼。不顯示字元或星號是正常的。沒有預設密碼，也不是 fnOS 密碼。已存在帳號請看教程中的 `reset-password`。
+
+管理員在第三頁「邀請碼管理」產生邀請碼；新使用者在登入頁按「以邀請碼建立帳號」，自行設定帳號和密碼。每碼限用一次、7 天有效，可由管理員撤銷。一般帳號只有自己的行程、偏好、備份及密碼設定，沒有邀請碼管理權限。
 
 ## 介面與開發
 

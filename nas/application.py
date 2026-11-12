@@ -49,16 +49,25 @@ def create_app(config=None):
             raise APIError('JSON object required.')
         return value
 
-    def authorize(db):
+    def find_session(db):
         token = request.cookies.get(COOKIE, '')
-        session = db.execute('''SELECT s.*, u.username, u.is_admin FROM sessions s
+        return db.execute('''SELECT s.*, u.username, u.is_admin FROM sessions s
             JOIN users u ON u.id=s.user_id WHERE token_hash=? AND expires>?''', (digest(token), int(time.time()))).fetchone()
+
+    def authorize(db):
+        session = find_session(db)
         if session is None:
             raise APIError('Please sign in again.', 401, 'unauthorized')
         if request.method != 'GET' and not secrets.compare_digest(request.headers.get('X-CSRF-Token', ''), session['csrf']):
             raise APIError('Session check failed. Reload before saving.', 403, 'csrf')
         g.language = 'zh-Hant'
         return session
+
+    def signed_in(token, status=200):
+        response = jsonify(ok=True)
+        response.status_code = status
+        response.set_cookie(COOKIE,token,max_age=7*86400,httponly=True,secure=app.config['COOKIE_SECURE'],samesite='Strict',path='/')
+        return response
 
     def snapshot(db, session):
         row = db.execute('SELECT * FROM plans WHERE user_id=?', (session['user_id'],)).fetchone()
@@ -72,8 +81,11 @@ def create_app(config=None):
             saved_at = int(time.time())
             db.execute('UPDATE plans SET data=?,version=?,saved_at=? WHERE user_id=?', (json.dumps(state), version, saved_at, session['user_id']))
         g.language = state['language']
-        return dict(api_version=1, user=dict(id=session['user_id'], username=session['username'], is_admin=bool(session['is_admin'])),
-                    csrf=session['csrf'], version=version, saved_at=saved_at, state=state, view=view(state,today,cutoff))
+        result = dict(api_version=1, user=dict(id=session['user_id'], username=session['username'], is_admin=bool(session['is_admin'])),
+                      csrf=session['csrf'], version=version, saved_at=saved_at, state=state, view=view(state,today,cutoff))
+        if session['is_admin']:
+            result['invitations'] = store.invitations(db)
+        return result
 
     @app.before_request
     def same_origin():
@@ -124,7 +136,7 @@ def create_app(config=None):
     def health():
         with closing(store.connect()) as db:
             db.execute('SELECT 1 FROM users LIMIT 1').fetchone()
-        return jsonify(ok=True, edition='nas', api_version=1)
+        return jsonify(ok=True, edition='nas', api_version=1, version='0.3.0')
 
     @app.post('/api/login')
     def login():
@@ -152,9 +164,78 @@ def create_app(config=None):
                 token, csrf = store.session(db,user['id'])
         if denied:
             raise APIError('Invalid username or password.', 401, 'credentials')
-        response = jsonify(ok=True)
-        response.set_cookie(COOKIE,token,max_age=7*86400,httponly=True,secure=app.config['COOKIE_SECURE'],samesite='Strict',path='/')
-        return response
+        return signed_in(token)
+
+    @app.post('/api/register')
+    def register():
+        data = body()
+        code, username, password = data.get('invite_code'), data.get('username'), data.get('password')
+        if not isinstance(code,str) or not 16 <= len(code.strip()) <= 80:
+            raise APIError('Invalid, expired or already used invitation code.',400,'invalid_invitation')
+        if not isinstance(username,str) or not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',username):
+            raise APIError('Username: 3–40 letters, digits, dots, underscores or hyphens.',400,'invalid_username')
+        try:
+            password_valid(password)
+        except ValueError as exc:
+            raise APIError(str(exc),400,'password_length') from None
+        if data.get('password_confirm') != password:
+            raise APIError('Passwords do not match.',400,'password_mismatch')
+        language = data.get('language','zh-Hant')
+        if language not in ('zh-Hant','zh-Hans','en'):
+            raise APIError('Invalid language.')
+        now = int(time.time())
+        attempt_key = 'register-ip:'+str(request.remote_addr)
+        error = None
+        with store.transaction() as db:
+            if find_session(db):
+                raise APIError('Sign out before creating another account.',409,'already_signed_in')
+            db.execute('DELETE FROM attempts WHERE at < ?', (now-900,))
+            if db.execute('SELECT count(*) FROM attempts WHERE key=?',(attempt_key,)).fetchone()[0] >= 12:
+                raise APIError('Too many attempts. Try again in 15 minutes.',429,'rate_limited')
+            invitation = db.execute('SELECT * FROM invitations WHERE code_hash=?',(digest(code.strip()),)).fetchone()
+            if invitation is None or invitation['used_by'] is not None or invitation['revoked_at'] is not None or invitation['expires_at'] <= now:
+                error = APIError('Invalid, expired or already used invitation code.',400,'invalid_invitation')
+            else:
+                try:
+                    user_id = store.create_user(username,password,False,db,language=language)
+                except ValueError as exc:
+                    error = APIError(str(exc),400,'username_taken')
+                else:
+                    db.execute('UPDATE invitations SET used_by=?,used_at=? WHERE id=?',(user_id,now,invitation['id']))
+                    token, _ = store.session(db,user_id)
+                    db.execute('DELETE FROM attempts WHERE key=?',(attempt_key,))
+            if error:
+                # Commit failed-attempt counters without consuming an invitation or creating a user.
+                db.execute('INSERT INTO attempts VALUES(?,?)',(attempt_key,now))
+        if error:
+            raise error
+        return signed_in(token,201)
+
+    @app.get('/api/invitations')
+    @app.post('/api/invitations')
+    def invitations():
+        with store.transaction() as db:
+            session = authorize(db)
+            if not session['is_admin']:
+                raise APIError('Administrator account required.',403,'forbidden')
+            result = {}
+            if request.method == 'POST':
+                data = body()
+                if data.get('action') == 'create':
+                    code = secrets.token_urlsafe(24)
+                    now = int(time.time())
+                    db.execute('INSERT INTO invitations(code_hash,created_by,created_at,expires_at) VALUES(?,?,?,?)',
+                               (digest(code),session['user_id'],now,now+7*86400))
+                    result['code'] = code
+                elif data.get('action') == 'revoke' and type(data.get('id')) is int:
+                    changed = db.execute('UPDATE invitations SET revoked_at=? WHERE id=? AND used_by IS NULL AND revoked_at IS NULL',
+                                         (int(time.time()),data['id'])).rowcount
+                    if not changed:
+                        raise APIError('Invitation was already used or revoked.',409,'invitation_unavailable')
+                else:
+                    raise APIError('Unknown invitation action.')
+            result['invitations'] = store.invitations(db)
+        return jsonify(result)
 
     @app.get('/api/state')
     def get_state():
@@ -213,6 +294,7 @@ def create_app(config=None):
         with store.transaction() as db:
             current = snapshot(db,authorize(db))
         del current['csrf']
+        current.pop('invitations',None)
         root = Path(app.static_folder)
         html = (root/'index.html').read_text(encoding='utf-8')
         css = (root/'ui.css').read_text(encoding='utf-8')

@@ -12,23 +12,23 @@ function snapshot(version=1){
     view:{today:'2026-11-12',cutoff:540,days:Array.from({length:7},(_,i)=>({date:`2026-11-${12+i}`,weekday:i%7,holiday:''})),ranks:{task:0},progress:{},available:[],occurrences:[],missing:[],preview:{same:[],removed:[],added:[]}}};
 }
 function boot(cache=snapshot(),query=''){
-  const nodes=new Map(),timers=new Map(),calls=[],writes=[];let next=0,reply=null;
+  const nodes=new Map(),timers=new Map(),calls=[],writes=[];let next=0,reply=null,replyStatus=200;
   const node=()=>({innerHTML:'',hidden:true,textContent:'',disabled:false,classList:{toggle(){},add(){},remove(){}},append(){},prepend(){},remove(){},scrollIntoView(){}});
-  for(const key of ['#app','#bubble','#notice','#content','#offline-banner','#connection','#login-form','#login-language'])nodes.set(key,node());
+  for(const key of ['#app','#bubble','#notice','#content','#offline-banner','#connection','#login-form','#login-language','#auth-switch'])nodes.set(key,node());
   const writeButton=node();
   const storage=new Map(cache===null?[]:[['planwise-nas-snapshot-v1',typeof cache==='string'?cache:JSON.stringify(cache)]]);
   const context=vm.createContext({console,URLSearchParams,AbortController,structuredClone,Date,
-    location:{search:query,origin:'http://nas.test:9473'},navigator:{userAgent:'PlanwiseNAS/0.2.0'},
+    location:{search:query,origin:'http://nas.test:9473'},navigator:{userAgent:'PlanwiseNAS/0.3.0'},
     localStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>{storage.set(key,value);writes.push(key);},removeItem:key=>storage.delete(key)},
     document:{getElementById:()=>null,documentElement:{},body:{classList:{toggle(){}}},visibilityState:'visible',querySelector:key=>nodes.get(key)||null,querySelectorAll:selector=>selector.includes('[data-write]')?[writeButton]:[],createElement:node,addEventListener(){}},
     window:{addEventListener(){},isSecureContext:false,scrollTo(){}},history:{replaceState(){}},innerWidth:390,
     requestAnimationFrame:()=>{},setInterval:()=>1,
     setTimeout:(callback,delay)=>{const id=++next;timers.set(id,{callback,delay});return id;},clearTimeout:id=>timers.delete(id),
-    fetch:(url,options)=>{calls.push({url,options});return reply?Promise.resolve({ok:true,json:async()=>reply}):new Promise((resolve,reject)=>options.signal.addEventListener('abort',()=>reject(new Error('aborted'))));}
+    fetch:(url,options)=>{calls.push({url,options});return reply?Promise.resolve({ok:replyStatus<400,status:replyStatus,json:async()=>reply}):new Promise((resolve,reject)=>options.signal.addEventListener('abort',()=>reject(new Error('aborted'))));}
   });
-  vm.runInContext(source+'\nglobalThis.client={sync,change,command,isOffline:()=>offline,current:()=>snap};',context);
+  vm.runInContext(source+'\nglobalThis.client={sync,change,command,render,isOffline:()=>offline,current:()=>snap};',context);
   return {client:context.client,nodes,calls,writes,writeButton,
-    respond:data=>{reply=data;},advance:ms=>{for(const [id,timer] of timers)if(timer.delay<=ms){timers.delete(id);timer.callback();}},
+    respond:(data,status=200)=>{reply=data;replyStatus=status;},advance:ms=>{for(const [id,timer] of timers)if(timer.delay<=ms){timers.delete(id);timer.callback();}},
     flush:()=>new Promise(resolve=>setImmediate(resolve)),timerDelays:()=>[...timers.values()].map(timer=>timer.delay)};
 }
 
@@ -87,4 +87,46 @@ test('invalid cache cannot turn a cold launch into an empty page',()=>{
   for(const broken of ['{bad json','{"api_version":1,"user":{},"view":{},"state":{"tasks":2}}']){
     const app=boot(broken);assert.match(app.nodes.get('#app').innerHTML,/login-form/);
   }
+});
+
+test('sign-in offers invite-only registration with password confirmation',()=>{
+  const app=boot(null);
+  assert.match(app.nodes.get('#app').innerHTML,/以邀請碼建立帳號/);
+  app.nodes.get('#auth-switch').onclick();
+  const html=app.nodes.get('#app').innerHTML;
+  assert.match(html,/name="invite_code"/);
+  assert.match(html,/name="password_confirm"/);
+  assert.doesNotMatch(html,/name="is_admin"/);
+});
+
+test('regular settings keep personal preferences and hide administrator management',()=>{
+  const member=boot(snapshot(),'?tab=settings');
+  assert.match(member.nodes.get('#app').innerHTML,/prefs-form/);
+  assert.match(member.nodes.get('#app').innerHTML,/password-form/);
+  assert.doesNotMatch(member.nodes.get('#app').innerHTML,/invite-panel/);
+  const admin=snapshot();admin.user.is_admin=true;admin.invitations=[];
+  const owner=boot(admin,'?tab=settings');
+  assert.match(owner.nodes.get('#app').innerHTML,/invite-panel/);
+  assert.match(owner.nodes.get('#app').innerHTML,/Generate invitation/);
+});
+
+test('unauthenticated polling preserves the registration form instead of replacing typed fields',async()=>{
+  const app=boot(null);app.advance(8000);await app.flush();
+  app.nodes.get('#auth-switch').onclick();
+  app.nodes.get('#app').innerHTML+='<!-- existing typed form -->';
+  const before=app.nodes.get('#app').innerHTML;
+  app.respond({code:'unauthorized',error:'Please sign in again.'},401);
+  await app.client.sync();
+  assert.equal(app.nodes.get('#app').innerHTML,before);
+});
+
+test('invitation usage refreshes even when the administrator plan version is unchanged',async()=>{
+  const initial=snapshot();initial.user.is_admin=true;
+  initial.invitations=[{id:1,status:'pending',expires_at:1900000000}];
+  const app=boot(initial,'?tab=settings');app.advance(8000);await app.flush();
+  app.respond(initial);await app.client.sync(true);
+  const latest=structuredClone(initial);latest.invitations[0].status='used';latest.invitations[0].used_by='newmember';
+  app.respond(latest);await app.client.sync();
+  assert.match(app.nodes.get('#app').innerHTML,/#1 · Used/);
+  assert.match(app.nodes.get('#app').innerHTML,/newmember/);
 });
