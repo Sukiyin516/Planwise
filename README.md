@@ -42,3 +42,18 @@ node --check android/runtime/app.js
 ```
 
 根目錄 Python 模組為共用規則；NAS API 與前端在 `nas/`，本地 Android 在 `android/`，NAS Android 在 `nas/android/`。歷史規格及審查紀錄作課程開發記錄保留，當前安裝方法以本頁和安裝教程為準。
+
+## Code Structure & Refactoring
+
+| 文件 | 主要職責 |
+| --- | --- |
+| `timetable.py` | 計算時間表與可用時段。 |
+| `events.py` | 處理日程與固定事項的規則，例如移動單次事項。 |
+| `time_slots.py` | 提供兩個時間模組共用的時間解析功能。 |
+| `nas/application.py` | 接收 NAS 網頁 API 請求，組織計劃快照與保存流程。 |
+| `nas/domain.py` | 執行 NAS 計劃操作並產生供頁面使用的資料，沿用共用業務規則。 |
+| `nas/database.py` | 以 `Database` 類管理資料庫連線、交易及計劃資料讀寫。 |
+
+第一階段把共用時間解析移至 `time_slots.py`，解除 `timetable.py` 與 `events.py` 的循環依賴。第三階段把 NAS 計劃快照和提交步驟整理為普通函數，並將相關 SQL 集中到已有的 `Database` 類；這些調整不改變原有功能。第二階段比較 NAS 與本地 Android 的操作後，決定暫不提取新的共用動作模組。
+
+詳細記錄：[第一階段：時間模組](docs/refactoring-01-time-dependency.md) · [第二階段：共用動作審查](docs/refactoring-02-review.md) · [第三階段：NAS 計劃流程](docs/refactoring-03-nas-application.md)。
