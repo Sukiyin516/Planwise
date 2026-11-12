@@ -1,0 +1,26 @@
+name: planwise-nas
+services:
+  planwise:
+    build:
+      context: ..
+      dockerfile: nas/Dockerfile
+    platform: linux/amd64
+    image: planwise-nas:0.1.0
+    ports:
+      - "${PLANWISE_BIND_IP:-0.0.0.0}:${PLANWISE_PORT:-8088}:8080"
+    environment:
+      PLANWISE_DATABASE: /data/planwise.sqlite3
+      PLANWISE_COOKIE_SECURE: "${PLANWISE_COOKIE_SECURE:-0}"
+    volumes:
+      - planwise-data:/data
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+    stop_grace_period: 30s
+volumes:
+  planwise-data:
