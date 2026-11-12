@@ -1,5 +1,7 @@
 # 留白 Planwise
 
+> **NAS 新版本（獨立開發分支）**：目前分支為 `feature/nas-server`，新增 Docker 部署、帳號登入及同帳號跨裝置同步。安裝與資料遷移請先讀 [NAS 說明](nas/README.md)。下方為保留的原本機版說明；`main` 和舊 APK 維持原狀。
+
 為大學生安排 DDL 任務，同時提醒有空可做的長期目標。Python 標準函式庫負責排程及本機 JSON 儲存，HTML/CSS/JavaScript 提供介面；不用 AI 或雲端帳號。時間最少半小時。
 
 目前網頁功能版本 v5.1，Android `0.5.1-preview`（versionCode 3）。APK、Mac／Windows 分享包在本倉庫 Releases。此為課程測試版，Android 真機操作仍待驗證。
