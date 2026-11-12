@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from main import render
+from android.runtime.main import render
 from planner import mutate
 from storage import load_state,save_state
 from test_planner import TODAY,D0,D1,form,state,task
@@ -139,7 +139,7 @@ class ClockAndApprovalTests(unittest.TestCase):
     def test_map_and_calendar_preview_markup(self):
         s=example()
         early_finish(s)
-        with patch('main.today_hk',return_value=TODAY):
+        with patch('android.runtime.main.today_hk',return_value=TODAY):
             map_page=render(s)
             calendar=render(s,query={'tab':['schedule']})
         self.assertIn('map-point',map_page)
@@ -148,7 +148,7 @@ class ClockAndApprovalTests(unittest.TestCase):
         self.assertIn('ghost destination',calendar)
         self.assertIn('確認前移',calendar)
         decide(s,'confirm_move',s['proposal']['id'],TODAY)
-        with patch('main.today_hk',return_value=TODAY):
+        with patch('android.runtime.main.today_hk',return_value=TODAY):
             confirmed=render(s,query={'tab':['schedule']})
         self.assertNotIn('ghost destination',confirmed)
         self.assertNotIn('ghost origin',confirmed)

@@ -11,7 +11,7 @@ import unittest
 from unittest.mock import patch
 
 from events import cancel_occurrence, move_occurrence, occurrences, save_event
-from main import Handler, TOKEN, event_bubble, render
+from android.runtime.main import Handler, TOKEN, event_bubble, render
 from storage import load_state, save_state
 from test_events import event
 from test_planner import TODAY, D0, D1, form, task
@@ -28,7 +28,7 @@ def request(state,path,**fields):
     handler.server=SimpleNamespace(state=state,data_path=path,notice='',demo=False,read_only=False)
     result=[]
     handler.reply=lambda code,body,*args,**kwargs:result.append((code,json.loads(body)))
-    with patch('main.today_hk',return_value=TODAY),patch('main.current_floor',return_value=0):
+    with patch('android.runtime.main.today_hk',return_value=TODAY),patch('android.runtime.main.current_floor',return_value=0):
         handler.do_POST()
     return handler.server.state,result[0]
 
@@ -58,7 +58,7 @@ class FixedEventTests(unittest.TestCase):
         self.assertIn('cancel_occurrence',html)
         self.assertIn('value="'+D1+'"',html)
         self.assertNotIn('name="new_start"',html)
-        with patch('main.today_hk',return_value=TODAY):
+        with patch('android.runtime.main.today_hk',return_value=TODAY):
             html=render(s,query={'tab':['schedule']})
         self.assertIn('data-end="600" data-draggable="false"',html)
 

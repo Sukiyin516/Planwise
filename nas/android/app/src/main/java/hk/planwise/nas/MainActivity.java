@@ -31,7 +31,6 @@ public class MainActivity extends Activity {
     private String server = "";
     private ValueCallback<Uri[]> upload;
     private String pendingExport;
-    private boolean fallback = false;
     private static final int PICK_FILE = 101, SAVE_FILE = 102;
 
     @Override public void onCreate(Bundle state) {
@@ -52,13 +51,14 @@ public class MainActivity extends Activity {
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
-        settings.setUserAgentString(settings.getUserAgentString()+" PlanwiseNAS/0.1.0");
+        settings.setUserAgentString(settings.getUserAgentString()+" PlanwiseNAS/0.2.0");
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(web,false);
         web.setWebViewClient(new WebViewClient() {
             @Override public boolean shouldOverrideUrlLoading(WebView view,WebResourceRequest request) {
                 Uri uri=request.getUrl();
                 if (trusted(uri) && "/client/change-server".equals(uri.getPath())) { configure(); return true; }
+                if (request.isForMainFrame() && trusted(uri) && "/".equals(uri.getPath())) { load(); return true; }
                 return !trusted(uri);
             }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
@@ -71,13 +71,7 @@ public class MainActivity extends Activity {
                 return null;
             }
             @Override public void onReceivedError(WebView view,WebResourceRequest request,WebResourceError error) {
-                if (request.isForMainFrame() && trusted(request.getUrl()) && !fallback) {
-                    fallback=true;
-                    try (InputStream input=getAssets().open("index.html")) {
-                        String html=new String(read(input,1_000_000),StandardCharsets.UTF_8);
-                        view.loadDataWithBaseURL(server+"/",html,"text/html","UTF-8",server+"/");
-                    } catch (Exception ex) { toast("Cannot load the offline client."); }
-                }
+                if (request.isForMainFrame()) toast("連線中斷，可在頁面重新整理 / Connection unavailable. Refresh to retry.");
             }
             @Override public void onPageFinished(WebView view,String url) { CookieManager.getInstance().flush(); }
         });
@@ -111,16 +105,22 @@ public class MainActivity extends Activity {
         Uri base=Uri.parse(server);
         return !server.isEmpty() && uri.getUserInfo()==null && base.getScheme().equals(uri.getScheme()) && base.getHost().equalsIgnoreCase(String.valueOf(uri.getHost())) && port(base)==port(uri);
     }
-    private void load() { fallback=false;web.loadUrl(server+"/"); }
+    private void load() {
+        // Never wait for a remote HTML document: show the bundled client and cache first.
+        try (InputStream input=getAssets().open("index.html")) {
+            String html=new String(read(input,1_000_000),StandardCharsets.UTF_8);
+            web.loadDataWithBaseURL(server+"/",html,"text/html","UTF-8",server+"/");
+        } catch (Exception ex) { toast("Cannot load the offline client."); }
+    }
     private void configure() {
         EditText input=new EditText(this);
-        input.setSingleLine(true);input.setHint("http://192.168.1.100:8088");input.setText(server);
+        input.setSingleLine(true);input.setHint("http://192.168.1.100:9473");input.setText(server);
         AlertDialog dialog=new AlertDialog.Builder(this).setTitle("NAS 地址 / Server address").setMessage("局域網或 ZeroTier 地址；不要填帳號、密碼或路徑。\nLAN / ZeroTier URL, without credentials or paths.").setView(input).setPositiveButton("連接 / Connect",null).setNegativeButton(android.R.string.cancel,(d,w)->{if(server.isEmpty())finish();}).create();
         dialog.setOnShowListener(ignored->dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view->{
             String value=input.getText().toString().trim();
             while(value.endsWith("/"))value=value.substring(0,value.length()-1);
             Uri uri=Uri.parse(value);
-            if(!("http".equals(uri.getScheme())||"https".equals(uri.getScheme()))||uri.getHost()==null||uri.getUserInfo()!=null||uri.getQuery()!=null||uri.getFragment()!=null||(uri.getPath()!=null&&!uri.getPath().isEmpty())||uri.getPort()>65535||value.contains("\\")) { input.setError("例如 / e.g. http://192.168.1.100:8088");return; }
+            if(!("http".equals(uri.getScheme())||"https".equals(uri.getScheme()))||uri.getHost()==null||uri.getUserInfo()!=null||uri.getQuery()!=null||uri.getFragment()!=null||(uri.getPath()!=null&&!uri.getPath().isEmpty())||uri.getPort()>65535||value.contains("\\")) { input.setError("例如 / e.g. http://192.168.1.100:9473");return; }
             if(!value.equals(server)) {
                 server=value;getPreferences(MODE_PRIVATE).edit().putString("server",server).apply();
                 WebStorage.getInstance().deleteAllData();web.clearCache(true);web.clearHistory();

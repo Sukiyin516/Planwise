@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 from events import occurrences,save_event,move_occurrence
-from main import render,event_bubble
+from android.runtime.main import render,event_bubble
 from storage import empty_state,save_state,load_state
 from timetable import available_cells,candidate,cells,refresh,move_block
 from test_planner import TODAY,D0,D1,task,state,form
@@ -178,7 +178,7 @@ class DragAndBubbleTests(unittest.TestCase):
     def test_full_day_grid_events_tab_and_bubble_markup(self):
         s=self.example()
         s['events']=[event()]
-        with patch('main.today_hk',return_value=TODAY):
+        with patch('android.runtime.main.today_hk',return_value=TODAY):
             schedule=render(s,query={'tab':['schedule']})
             detail=render(s,query={'task':['A']})
             panel=render(s,query={'tab':['events']})

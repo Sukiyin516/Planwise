@@ -39,6 +39,10 @@ public class MainActivity extends Activity {
         super.onCreate(state);
         FrameLayout root = new FrameLayout(this);
         root.setBackgroundColor(Color.rgb(250,248,242));
+        TextView loading=new TextView(this);
+        loading.setText("正在啟動本地留白，不需要網絡…\nStarting local Planwise, no network required…");
+        loading.setGravity(android.view.Gravity.CENTER);
+        loading.setPadding(32,32,32,32);
         root.setOnApplyWindowInsetsListener((view,insets) -> {
             view.setPadding(insets.getSystemWindowInsetLeft(),insets.getSystemWindowInsetTop(),
                     insets.getSystemWindowInsetRight(),insets.getSystemWindowInsetBottom());
@@ -57,6 +61,9 @@ public class MainActivity extends Activity {
         web.getSettings().setLoadWithOverviewMode(true);
         WebView.setWebContentsDebuggingEnabled(false);
         web.setWebViewClient(new WebViewClient() {
+            @Override public void onPageFinished(WebView view,String url) {
+                if(isLocal(url))root.removeView(loading);
+            }
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri target = request.getUrl();
                 if (base == null) return true;
@@ -94,6 +101,7 @@ public class MainActivity extends Activity {
             }
         });
         root.addView(web,new FrameLayout.LayoutParams(-1,-1));
+        root.addView(loading,new FrameLayout.LayoutParams(-1,-1));
         setContentView(root);
         if (Build.VERSION.SDK_INT >= 33) {
             getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
@@ -109,6 +117,7 @@ public class MainActivity extends Activity {
             } catch (Exception error) {
                 android.util.Log.e("Planwise","Python startup failed",error);
                 runOnUiThread(() -> {
+                    root.removeView(loading);
                     TextView message=new TextView(this);
                     message.setText("啟動未完成，請關閉後重新開啟留白。");
                     message.setPadding(32,64,32,32);

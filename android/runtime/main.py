@@ -1,5 +1,4 @@
-"""Local Python + HTML planner: task map and approval-based clock timetable."""
-import argparse
+"""Private loopback runtime for the local Android app; no desktop launcher."""
 from datetime import datetime, timedelta, timezone
 from html import escape as h
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -371,7 +370,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(payload)
 
 
-def make_server(path,port=8765,demo=False):
+def make_server(path,port=0,demo=False):
     server=HTTPServer(('127.0.0.1',port),Handler)
     server.data_path,server.demo,server.read_only=Path(path),demo,False
     try:
@@ -380,19 +379,3 @@ def make_server(path,port=8765,demo=False):
     except ValueError as exc:
         server.state,server.notice,server.read_only=empty_state(),str(exc),True
     return server
-
-
-if __name__=='__main__':
-    parser=argparse.ArgumentParser(description='Local Planwise planner')
-    parser.add_argument('--demo',action='store_true')
-    parser.add_argument('--port',type=int,default=8765)
-    parser.add_argument('--data',type=Path,help='指定獨立資料檔，方便隔離測試')
-    args=parser.parse_args()
-    server=make_server(args.data or ROOT/('demo-data.json' if args.demo else 'data.json'),args.port,args.demo)
-    print(f'Planwise: http://127.0.0.1:{server.server_port}',flush=True)
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        server.server_close()

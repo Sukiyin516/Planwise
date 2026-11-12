@@ -51,10 +51,10 @@ const EN={map:'Task map',schedule:'Schedule',settings:'Life & settings',room:'A 
 let language='zh-Hant';
 try{language=localStorage.getItem('planwise-language')||language;}catch{}
 const embedded=document.getElementById('offline-data');
-let snap=embedded?JSON.parse(embedded.textContent):null;
-let offline=!!embedded,busy=false,dirty=false,tab=new URLSearchParams(location.search).get('tab')||'map',dayIndex=0,zoom=1,showProposal=false,remoteChanged=false;
-let span=matchMedia('(max-width:700px)').matches?'day':'week';
 const CACHE_KEY='planwise-nas-snapshot-v1';
+let snap=embedded?JSON.parse(embedded.textContent):cached();
+let offline=!!snap,busy=false,syncing=false,dirty=false,tab=new URLSearchParams(location.search).get('tab')||'map',dayIndex=0,zoom=1,showProposal=false,remoteChanged=false;
+let span=new URLSearchParams(location.search).get('span')==='day'?'day':'week';
 const $=selector=>document.querySelector(selector);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const t=key=>language==='en'?(EN[key]||key):(TEXT[key]?.[language==='zh-Hans'?1:0]||EN[key]||key);
@@ -62,7 +62,7 @@ const time=minute=>`${String(Math.floor(minute/60)).padStart(2,'0')}:${String(mi
 const weekday=index=>(language==='en'?['Mon','Tue','Wed','Thu','Fri','Sat','Sun']:language==='zh-Hans'?['周一','周二','周三','周四','周五','周六','周日']:['週一','週二','週三','週四','週五','週六','週日'])[index];
 const locale=()=>language==='en'?'en-HK':language==='zh-Hans'?'zh-CN':'zh-HK';
 function notify(message){$('#notice').textContent=message;$('#notice').classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>$('#notice').classList.remove('show'),6500);}
-function cached(){try{return JSON.parse(localStorage.getItem(CACHE_KEY));}catch{return null;}}
+function cached(){try{const data=JSON.parse(localStorage.getItem(CACHE_KEY));return data?.api_version===1&&data.user&&data.view&&Array.isArray(data.state?.tasks)?data:null;}catch{return null;}}
 function clearCache(){try{localStorage.removeItem(CACHE_KEY);}catch{}}
 function adopt(data){
   if(data.api_version!==1)throw new Error('This server needs a newer client.');
@@ -72,7 +72,7 @@ function adopt(data){
   try{localStorage.setItem(CACHE_KEY,JSON.stringify(cache));localStorage.setItem('planwise-language',language);}catch{}
 }
 async function api(path,data){
-  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);
   try{
     const response=await fetch(path,{method:data?'POST':'GET',credentials:'same-origin',cache:'no-store',signal:controller.signal,headers:{'Content-Type':'application/json','X-Planwise-Client':'1',...(snap?.csrf?{'X-CSRF-Token':snap.csrf}:{})},...(data?{body:JSON.stringify(data)}:{})});
     const result=await response.json();
@@ -83,7 +83,8 @@ async function api(path,data){
 function lockWrites(){document.querySelectorAll('[data-write],form input,form select,form textarea,form button').forEach(el=>el.disabled=offline||busy);document.body.classList.toggle('readonly',offline);}
 function markOffline(message){offline=true;if(!snap){snap=cached();if(snap)language=snap.state.language;render();}else updateConnection();if(message)notify(message);}
 async function sync(force=false){
-  if(embedded||busy)return;
+  if(embedded||busy||syncing)return;
+  syncing=true;
   try{
     const data=await api('/api/state');
     if(!force&&(!$('#bubble').hidden||dirty)&&snap&&data.user.id===snap.user.id){
@@ -97,7 +98,7 @@ async function sync(force=false){
     if(error.status===401){snap=null;offline=false;clearCache();closeBubble();render();}
     else if(!error.status)markOffline();
     else if(force)notify(error.message);
-  }
+  }finally{syncing=false;}
 }
 function updateConnection(){
   const el=$('#connection');if(el)el.innerHTML=connection();
@@ -128,10 +129,12 @@ function formError(message){const el=$('#bubble .error');if(el){el.hidden=false;
 function languageOptions(value){return ['zh-Hant','zh-Hans','en'].map((code,i)=>`<option value="${code}" ${value===code?'selected':''}>${['繁體中文','简体中文','English'][i]}</option>`).join('');}
 function render(){
   dirty=false;
+  if(snap)language=snap.state.language;
   document.documentElement.lang=language;
   if(!snap){
-    $('#app').innerHTML=`<main class="login paper" id="content"><div class="eyebrow">PLANWISE / NAS EDITION</div><h1>${language==='en'?'Planwise':'留白'}</h1><p class="subtitle">${esc(t('loginNote'))}</p><form id="login-form"><label for="username">${esc(t('username'))}</label><input id="username" name="username" autocomplete="username" required maxlength="40"><label for="password">${esc(t('password'))}</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="200"><button class="primary">${esc(t('signin'))} →</button></form><label for="login-language">${esc(t('language'))}</label><select id="login-language">${languageOptions(language)}</select><footer>${esc(t('privateNote'))}</footer>${/PlanwiseNAS/.test(navigator.userAgent)?`<p class="foot"><a href="/client/change-server">${esc(t('changeServer'))}</a></p>`:''}</main>`;
+    $('#app').innerHTML=`<main class="login paper" id="content"><div class="eyebrow">PLANWISE / NAS EDITION</div><h1>${language==='en'?'Planwise':'留白'}</h1><p class="subtitle">${esc(t('loginNote'))}</p><form id="login-form"><label for="username">${esc(t('username'))}</label><input id="username" name="username" autocomplete="username" required maxlength="40"><label for="password">${esc(t('password'))}</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="200"><button class="primary">${esc(t('signin'))} →</button></form><label for="login-language">${esc(t('language'))}</label><select id="login-language">${languageOptions(language)}</select><footer>${esc(t('privateNote'))}</footer>${offline?`<div class="banner warn">${esc(t("offlineLogin"))}<button id="retry-connect">${esc(t("refresh"))}</button></div>`:""}${/PlanwiseNAS/.test(navigator.userAgent)?`<p class="foot"><a href="/client/change-server">${esc(t('changeServer'))}</a></p>`:''}</main>`;
     $('#login-form').onsubmit=async event=>{event.preventDefault();const fields=Object.fromEntries(new FormData(event.target));event.submitter.disabled=true;clearCache();try{await api('/api/login',fields);await sync(true);}catch(error){notify(error.status?error.message:t('offlineLogin'));}finally{event.submitter.disabled=false;}};
+    if($('#retry-connect'))$('#retry-connect').onclick=()=>sync(true);
     $('#login-language').onchange=event=>{language=event.target.value;render();};return;
   }
   if(!['map','schedule','settings'].includes(tab))tab='map';
@@ -163,7 +166,7 @@ function schedulePage(){
   const preview=snap.view.preview;
   const blocks=snap.state.calendar;
   const isRemoved=block=>proposal&&showProposal&&preview.removed.some(old=>old.task_id===block.task_id&&old.date===block.date&&old.start<block.end&&old.end>block.start);
-  return `<div class="heading"><div><div class="eyebrow">ONE HALF-HOUR AT A TIME</div><h1>${esc(t('schedule'))}</h1><p class="subtitle">${esc(t('calendarNote'))}</p></div><button class="primary" data-cmd="add-task" data-write>＋ ${esc(t('addTask'))}</button></div><div class="toolbar" style="margin-bottom:15px"><button data-cmd="prev-day" ${dayIndex===0?'disabled':''} aria-label="${esc(t('previous'))}">←</button><button data-cmd="today">${esc(t('today'))}</button><button data-cmd="next-day" ${dayIndex===6?'disabled':''} aria-label="${esc(t('next'))}">→</button><strong>${esc(days[0].date)}${span==='week'?` — ${days.at(-1).date.slice(5)}`:''}</strong><button data-cmd="span-day" ${span==='day'?'class="primary"':''}>${esc(t('day'))}</button><button data-cmd="span-week" ${span==='week'?'class="primary"':''}>${esc(t('week'))}</button></div>${proposal?`<div class="banner"><strong>${esc(t('proposal'))}</strong><p>${esc(t('proposalNote'))}</p><button data-cmd="show-proposal">${esc(t('showSuggestion'))} ${showProposal?'−':'＋'}</button>${showProposal?`<button data-cmd="accept" data-write>${esc(t('accept'))}</button><button data-cmd="keep" data-write>${esc(t('keep'))}</button>`:''}</div>`:''}<div class="calendar-wrap ${span==='week'?'week-view':''}"><div class="cal-head"><div class="cal-corner">GMT+8</div>${days.map(day=>`<div class="day-head ${day.date===snap.view.today?'today':''} ${day.holiday?'holiday':''}">${esc(weekday(day.weekday))}<b>${Number(day.date.slice(-2))}</b><small>${esc(day.holiday?language==='en'?'HK holiday':day.holiday:'')}</small></div>`).join('')}</div><div class="cal-body"><div class="times">${Array.from({length:24},(_,hour)=>`<span class="time" style="top:${hour/24*100}%">${time(hour*60)}</span>`).join('')}</div>${days.map(day=>`<div class="day-col" data-date="${day.date}">${snap.view.available.filter(([date])=>date===day.date).map(([,minute])=>`<div class="free-cell" style="top:${minute/1440*100}%"></div>`).join('')}${snap.view.occurrences.filter(b=>b.date===day.date).map(b=>blockHtml(b,b.category==='private'?'private':'fixed')).join('')}${snap.state.work_log.filter(b=>b.date===day.date&&Number.isInteger(b.start)).map(b=>blockHtml(b,'work')).join('')}${blocks.filter(b=>b.date===day.date).map(b=>blockHtml(b,'task',isRemoved(b)?"origin":false)).join('')}${proposal&&showProposal?preview.added.filter(b=>b.date===day.date).map(b=>blockHtml(b,'task','destination')).join(''):''}${day.date===snap.view.today?`<div class="now-line" style="top:${snap.view.cutoff/1440*100}%"></div>`:''}</div>`).join('')}</div></div><div class="legend">${['deadline','fixed','personal','work','proposal'].map((key,i)=>`<span><i class="${['','fixed','private','','ghost'][i]}"></i>${esc(t(key))}</span>`).join('')}</div>${snap.view.missing.length?`<details class="list"><summary>${esc(t('missing'))} · ${snap.view.missing.length}</summary>${snap.view.missing.map(row=>`<div class="row"><button data-task="${esc(row.id)}">${esc(snap.state.tasks.find(task=>task.id===row.id)?.title)}</button><small>${esc(t(row.reason))} · ${row.minutes/60} h</small></div>`).join('')}</details>`:''}`;
+  return `<div class="heading"><div><div class="eyebrow">ONE HALF-HOUR AT A TIME</div><h1>${esc(t('schedule'))}</h1><p class="subtitle">${esc(t('calendarNote'))}</p></div><button class="primary" data-cmd="add-task" data-write>＋ ${esc(t('addTask'))}</button></div><div class="toolbar" style="margin-bottom:15px"><button data-cmd="prev-day" ${dayIndex===0?'disabled':''} aria-label="${esc(t('previous'))}">←</button><button data-cmd="today">${esc(t('today'))}</button><button data-cmd="next-day" ${dayIndex===6?'disabled':''} aria-label="${esc(t('next'))}">→</button><strong>${esc(days[0].date)}${span==='week'?` — ${days.at(-1).date.slice(5)}`:''}</strong><button data-cmd="span-day" ${span==='day'?'class="primary"':''}>${esc(t('day'))}</button><button data-cmd="span-week" ${span==='week'?'class="primary"':''}>${esc(t('week'))}</button></div>${proposal?`<div class="banner"><strong>${esc(t('proposal'))}</strong><p>${esc(t('proposalNote'))}</p><button data-cmd="show-proposal">${esc(t('showSuggestion'))} ${showProposal?'−':'＋'}</button>${showProposal?`<button data-cmd="accept" data-write>${esc(t('accept'))}</button><button data-cmd="keep" data-write>${esc(t('keep'))}</button>`:''}</div>`:''}<div class="calendar-wrap ${span==='week'?'week-view':''}"><div class="cal-head"><div class="cal-corner">GMT+8</div>${days.map(day=>`<button class="day-head ${day.date===snap.view.today?'today':''} ${day.holiday?'holiday':''}" data-view-day="${snap.view.days.indexOf(day)}">${esc(weekday(day.weekday))}<b>${Number(day.date.slice(-2))}</b><small>${esc(day.holiday?language==='en'?'HK holiday':day.holiday:'')}</small></button>`).join('')}</div><div class="cal-body"><div class="times">${Array.from({length:24},(_,hour)=>`<span class="time" style="top:${hour/24*100}%">${time(hour*60)}</span>`).join('')}</div>${days.map(day=>`<div class="day-col" data-date="${day.date}">${snap.view.available.filter(([date])=>date===day.date).map(([,minute])=>`<div class="free-cell" style="top:${minute/1440*100}%"></div>`).join('')}${snap.view.occurrences.filter(b=>b.date===day.date).map(b=>blockHtml(b,b.category==='private'?'private':'fixed')).join('')}${snap.state.work_log.filter(b=>b.date===day.date&&Number.isInteger(b.start)).map(b=>blockHtml(b,'work')).join('')}${blocks.filter(b=>b.date===day.date).map(b=>blockHtml(b,'task',isRemoved(b)?"origin":false)).join('')}${proposal&&showProposal?preview.added.filter(b=>b.date===day.date).map(b=>blockHtml(b,'task','destination')).join(''):''}${day.date===snap.view.today?`<div class="now-line" style="top:${snap.view.cutoff/1440*100}%"></div>`:''}</div>`).join('')}</div></div><div class="legend">${['deadline','fixed','personal','work','proposal'].map((key,i)=>`<span><i class="${['','fixed','private','','ghost'][i]}"></i>${esc(t(key))}</span>`).join('')}</div>${snap.view.missing.length?`<details class="list"><summary>${esc(t('missing'))} · ${snap.view.missing.length}</summary>${snap.view.missing.map(row=>`<div class="row"><button data-task="${esc(row.id)}">${esc(snap.state.tasks.find(task=>task.id===row.id)?.title)}</button><small>${esc(t(row.reason))} · ${row.minutes/60} h</small></div>`).join('')}</details>`:''}`;
 }
 function checks(name,selected){return `<div class="weekchecks">${Array.from({length:7},(_,i)=>`<label class="check"><input type="checkbox" name="${name}" value="${i}" ${selected.includes(i)?'checked':''}>${weekday(i)}</label>`).join('')}</div>`;}
 function settingsPage(){
@@ -212,6 +215,7 @@ function eventBubble(block,anchor){
 }
 function bind(){
   document.querySelectorAll('[data-tab]').forEach(el=>el.onclick=()=>{tab=el.dataset.tab;closeBubble();render();window.scrollTo(0,0);if(!embedded)history.replaceState(null,'',`/?tab=${tab}`);});
+  document.querySelectorAll('[data-view-day]').forEach(el=>el.onclick=()=>{dayIndex=Number(el.dataset.viewDay);span='day';closeBubble();render();});
   document.querySelectorAll('[data-task]').forEach(el=>el.onclick=()=>taskBubble(el.dataset.task,el));
   document.querySelectorAll('[data-event]').forEach(el=>el.onclick=()=>editEvent(snap.state.events.find(item=>item.id===el.dataset.event),el));
   document.querySelectorAll('[data-cmd]').forEach(el=>el.onclick=()=>command(el.dataset.cmd,el));
@@ -235,7 +239,7 @@ async function command(cmd,anchor){
   if(cmd==='zoom-in')zoom=Math.min(2,zoom+.25);
   if(cmd==='zoom-out')zoom=Math.max(.75,zoom-.25);
   if(cmd==='span-day')span='day';if(cmd==='span-week')span='week';
-  if(cmd==='today'){dayIndex=0;span='day';}
+  if(cmd==='today'){dayIndex=0;}
   if(cmd==='prev-day'){dayIndex=Math.max(0,dayIndex-1);span='day';}
   if(cmd==='next-day'){dayIndex=Math.min(6,dayIndex+1);span='day';}
   if(cmd==='show-proposal')showProposal=!showProposal;

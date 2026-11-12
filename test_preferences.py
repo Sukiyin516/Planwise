@@ -11,7 +11,7 @@ from holidays import holiday_name, is_workday, HOLIDAYS
 from i18n import localize_html, translate
 from planner import goal_progress, mutate
 from storage import empty_state, import_state, export_state, load_state, save_state
-from main import render, task_bubble
+from android.runtime.main import render, task_bubble
 from test_events import event, free_state
 from test_planner import form, TODAY, task
 

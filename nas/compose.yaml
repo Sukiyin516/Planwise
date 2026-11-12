@@ -5,7 +5,7 @@ services:
       context: ..
       dockerfile: nas/Dockerfile
     platform: linux/amd64
-    image: planwise-nas:0.1.0
+    image: planwise-nas:0.2.0
     pull_policy: build
     ports:
       - "${PLANWISE_BIND_IP:-0.0.0.0}:${PLANWISE_PORT:-9473}:8080"

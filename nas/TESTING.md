@@ -1,34 +1,25 @@
-# NAS 0.1.0 Preview 驗證紀錄
+# NAS 0.2.0 Preview 驗證紀錄
 
-日期：2026-11-12。測試只使用臨時示例帳號和臨時資料庫，沒有導入個人行程。
+2026-11-12；使用臨時示例帳號及資料庫，沒有導入個人行程。
 
 ## 自動驗證
 
-- Python 3.14 本機：`python -m unittest discover -q`，**89 項通過**（原有 70 項 + NAS API 19 項）。
-- JavaScript：`node --check nas/static/ui.js` 通過。
-- GitHub Actions 的 Python 3.12／Linux：同一套測試通過。
-- Compose：GitHub runner 實際執行 `docker compose -f nas/compose.yaml config --quiet` 通過。
-- `linux/amd64` Docker 映像實際建置成功；以 read-only rootfs、tmpfs 及 named volume 啟動 Gunicorn，health check、建立帳號、HTTP 登入、讀取行程及容器重啟後沿用 session 和資料通過。
-- 初次容器驗證：[NAS preview checks run 1](https://github.com/Z3ych1k/Planwise/actions/runs/43186808600)。
+- Python **92 項通過**：原有排程／Android 內置介面測試、NAS API 測試及新增管理員 CLI 測試。命令：`python -m unittest discover -v`。
+- `node --test nas/test_client.cjs`：6 項客戶端測試，驗證冷啟動先顯示快取、離線停用修改、8 秒中止卡住的請求、重連取得新版才開放寫入、手機預設七日／保留單日、首次無快取與損壞快取仍能顯示登入／重連頁。
+- 新增 CLI 測試實際呼叫 `nas.manage`：建立管理員只儲存密碼雜湊、密碼不符不建帳號、重設密碼保留原資料並撤銷 session。
+- `node --check nas/static/ui.js` 與 `node --check android/runtime/app.js`。
+- GitHub Actions 配置檢查兩份 Compose、執行上述測試、建置 `linux/amd64` 映像，驗證 HTTP 登入與資料卷／容器重啟後讀回。結果見該提交的 [Actions](https://github.com/Z3ych1k/Planwise/actions)。歷史 0.1.0 容器驗證為 [run 1](https://github.com/Z3ych1k/Planwise/actions/runs/43186808600)。
 
-NAS API 測試涵蓋：不同帳號的行程／匯出隔離、同帳號兩個 session、舊版本拒絕覆蓋、同時寫入只有一方成功、CSRF／跨來源拒絕、未登入拒絕、同 request ID 不重複記錄投入、錯誤匯入回滾、匯入前備份、長期目標投入比例、半小時限制、固定事項禁止移動、只取消一次、手動任務移動及重啟後讀回、前移建議不阻止記錄、修改密碼撤銷所有 session、管理員建立獨立帳號、登入限流、離線匯出不含 CSRF／不執行任務標題 HTML、香港時區、語言／工作日及舊版可用時段切換。
+## 瀏覽器實測
 
-## 瀏覽器操作
+- 390 × 844：七欄都在時間表可見範圍，`clientWidth=scrollWidth=360`，整頁寬 390。
+- 320 × 740：七欄都可見，`clientWidth=scrollWidth=290`，整頁寬 320。
+- 點日期變成單日，再切「七日」恢復七欄，沒有橫向捲動。
+- 模擬 NAS API 每次卡住 15 秒，冷啟動先顯示 7 份快取任務、唯讀提示及重連按鈕；本機瀏覽器操作量測約 64ms 即可讀到該畫面。這是本機瀏覽器觀察值，不是 Android 真機啟動時間保證。
+- NAS APK 改為直接 `loadDataWithBaseURL` 開啟內置頁面，不再 `loadUrl` 等待 NAS HTML 失敗；API 計時器為 8000ms，計時邏輯由客戶端測試驗證。
 
-- 臨時 demo 帳號登入；繁體中文設定切換英文後由 NAS 儲存，重新載入保留。
-- 手機 390 × 844 視口：預設單日；時間軸涵蓋 00:00–24:00；DOM 量測頁面寬度為 390，沒有整頁水平溢出。
-- 點長期目標圓點，從圓點位置展開互動氣泡；沒有右側抽屜。
-- 第三頁下載唯讀離線 HTML 成功。
-- 停止本機 Gunicorn：頁面保留行程，儲存／匯入／帳號操作停用；重新啟動後輪詢成功讀回資料並解除唯讀。
-- 瀏覽器錯誤紀錄檢查沒有 JavaScript error。
+## APK 與驗證邊界
 
-## Android
+NAS APK：`hk.planwise.nas`／`0.2.0-nas-preview`／code 2。本地 APK：`hk.planwise.app`／`0.5.2-preview`／code 4。兩者已完成建置、v2 簽章驗證及 16KB ZIP 對齊檢查。使用 AGP 8.13.0、Gradle 8.14.3、JDK 21、SDK 36，發布前另檢查內置來源。
 
-- AGP 8.13.0 / Gradle 8.14.3 / JDK 21 / SDK 36：`assembleDebug` 成功，包含最新靜態介面資產。
-- `apksigner verify --verbose` 通過（v2），`zipalign -c -P 16 4` 通過。
-- 套件 `hk.planwise.nas`，版本 `0.1.0-nas-preview` / versionCode 1；原離線 APK 的套件和程式沒有修改。
-- 尚未在 Android 真機驗證輸入 NAS 地址、冷啟動離線快取、系統檔案選擇器及匯入匯出；需部署後驗收。
-
-## 驗證邊界
-
-此處的 Docker 驗證在 GitHub Linux runner 完成；尚未連入使用者 fnOS NAS 或 ZeroTier 網路，不代表已安裝／部署到使用者設備。沒有大型負載測試，也沒有實作離線寫入、共享表或自動合併衝突。
+尚未連入使用者 fnOS／ZeroTier 或 Android 真機；沒有聲稱已安裝到使用者設備。沒有實作離線寫入、共享表或自動合併衝突。舊版 JSON／資料庫及本地 APK 私有資料不因目錄整理自動刪除。

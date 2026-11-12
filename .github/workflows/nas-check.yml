@@ -17,6 +17,9 @@ jobs:
       - run: pip install -r nas/requirements.txt
       - run: python -m unittest discover -v
       - run: node --check nas/static/ui.js
+      - run: node --test nas/test_client.cjs
+      - run: node --check android/runtime/app.js
+      - run: docker compose config --quiet
       - run: docker compose -f nas/compose.yaml config --quiet
       - run: docker build --platform linux/amd64 -f nas/Dockerfile -t planwise-nas:test .
       - name: Test persistent container storage and production HTTP server

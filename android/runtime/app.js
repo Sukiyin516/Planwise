@@ -13,11 +13,6 @@
   translations.then(result=>{words=result;});
   const tr=text=>words[text] || text;
   const params=new URLSearchParams(location.search);
-  if (matchMedia('(max-width:600px)').matches && params.get('tab')==='schedule' && !params.has('span')) {
-    params.set('span','day');
-    location.replace('/?'+params);
-    return;
-  }
   let toastTimer;
 
   function message(text) {

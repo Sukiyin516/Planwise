@@ -1,13 +1,13 @@
 # Copy this file alone into a fnOS Docker Compose project.
-# The NAS downloads the verified NAS 0.1.0 source when building the image.
+# The NAS downloads the NAS 0.2.0 release source when building the image.
 name: planwise-nas
 services:
   planwise:
     build:
-      context: "https://github.com/Z3ych1k/Planwise.git#9b927c5e76f2096d7b305748e3221562c919ea3d"
+      context: "https://github.com/Z3ych1k/Planwise.git#nas-v0.2.0-preview"
       dockerfile: nas/Dockerfile
     platform: linux/amd64
-    image: planwise-nas:0.1.0
+    image: planwise-nas:0.2.0
     pull_policy: build
     ports:
       - "${PLANWISE_BIND_IP:-0.0.0.0}:${PLANWISE_PORT:-9473}:8080"

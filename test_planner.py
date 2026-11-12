@@ -8,7 +8,7 @@ import unittest
 from unittest.mock import patch
 from types import SimpleNamespace
 
-from main import Handler, make_server, render
+from android.runtime.main import Handler, make_server, render
 from planner import minutes, mutate, rank, schedule, spent_on, suggestions
 from storage import empty_state, load_state, migrate, save_state, seed
 
@@ -204,7 +204,7 @@ class StorageAndPageTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)/'data.json'
             path.write_bytes(b'{broken')
-            with patch('main.HTTPServer',return_value=SimpleNamespace()):
+            with patch('android.runtime.main.HTTPServer',return_value=SimpleNamespace()):
                 server = make_server(path)
             self.assertTrue(server.read_only)
             self.assertIn('原檔已保留',server.notice)
@@ -228,7 +228,7 @@ class StorageAndPageTests(unittest.TestCase):
     def test_page_explains_rules_and_escapes_input(self):
         s = state([task()])
         s['tasks'][0]['title'] = '<script>alert(1)</script>'
-        with patch('main.today_hk', return_value=TODAY):
+        with patch('android.runtime.main.today_hk', return_value=TODAY):
             page = render(s,query={'add':['1']})
         self.assertNotIn('<script>',page)
         self.assertIn('&lt;script&gt;',page)

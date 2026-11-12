@@ -1,54 +1,41 @@
 # 留白 Planwise
 
-> **NAS 新版本（獨立開發分支）**：目前分支為 `feature/nas-server`，新增 Docker 部署、帳號登入及同帳號跨裝置同步。安裝與資料遷移請先讀 [NAS 說明](nas/README.md)。下方為保留的原本機版說明；`main` 和舊 APK 維持原狀。
+安排大學生的 DDL，保留課程、私人時間與長期目標。以半小時為單位，不使用 AI。
 
-為大學生安排 DDL 任務，同時提醒有空可做的長期目標。Python 標準函式庫負責排程及本機 JSON 儲存，HTML/CSS/JavaScript 提供介面；不用 AI 或雲端帳號。時間最少半小時。
+| 使用方式 | 資料與連線 | 安裝 |
+| --- | --- | --- |
+| NAS 網頁＋NAS APK 0.2.0 Preview | NAS 上每帳號一張表，同帳號跨裝置同步；離線唯讀 | [詳細教程與管理員密碼設定](nas/INSTALL.md) |
+| 本地 Android 0.5.2 Preview | 手機內獨立 JSON，不需要 NAS 或網絡 | [本地 Android 說明](android/README.md) |
 
-目前網頁功能版本 v5.1，Android `0.5.1-preview`（versionCode 3）。APK、Mac／Windows 分享包在本倉庫 Releases。此為課程測試版，Android 真機操作仍待驗證。
+原 Mac／Windows 本地網頁版、桌面啟動器及分享工具已移除。Android 需要的內置介面移至 `android/runtime/`，只作 APK 執行環境。NAS 網頁版繼續提供服務。
 
-## 電腦使用
+## NAS 入口
 
-需要 Python 3.9+，無需安裝其他套件。下載 Releases 的 `Planwise-v5.1-Mac-Windows.zip`，完整解壓，雙擊 `Start-Mac.command` 或 `Start-Windows.bat`。Mac 若不能直接雙擊，可在終端機執行 `bash Start-Mac.command`。附有獨立示例模式；資料只保存在解壓資料夾。
+- **[直接查看／複製 Compose](compose.yaml)**：只取這一個檔案即可在 fnOS 建置；預設網址 `http://NAS的IP:9473/`。
+- **[安裝教程](nas/INSTALL.md)**：fnOS 圖形介面、終端部署、管理員帳號與密碼、重設密碼、升級與備份。
+- **[版本下載](https://github.com/Z3ych1k/Planwise/releases/tag/nas-v0.2.0-preview)**：部署包、NAS APK、本地 APK。
+- [NAS 說明與驗證](nas/README.md)。版本在 `feature/nas-server`，組員 fork 分支未改動。
 
-從本倉庫原始碼啟動：
-
-```sh
-python3 -B main.py --demo
-```
-
-Windows 可用 `py -3 -B main.py --demo`。瀏覽器開啟 http://127.0.0.1:8765/ ，Ctrl+C 停止。日期按香港時間 UTC+8 計算。
-
-`--demo` 使用 `demo-data.json`；不加則用 `data.json`。沒有資料檔時建立以當天為基準的示例，之後的日期不會自動重設。分享包的普通啟動模式則從空白資料開始。`--data PATH` 可指定獨立資料檔。
-
-## 主要功能
-
-- 任務地圖：向右越重要、向上越緊急。DDL 在三天內視為緊急；長期目標只作提醒，不自動排程。
-- 期限優先排程：同期限再看重要性，安排未來七天，不超過任務期限。這是可解釋的貪心規則，不保證全局最優。
-- 固定事項及私人時間：先輸入課程、輪班、睡眠等，剩下的才是空檔；沒有預設的上班時段。
-- 重複：每天、每週自選星期、每月同日、每工作日、每假日。每月不存在的日期略過，支援跨午夜。
-- 香港公眾假期：內置 2026–2027（含補假和週日）；工作星期可修改。其他年份會提示資料範圍限制。假日標記本身不會封鎖時間。
-- 固定事項不能拖動或單次移動；可編輯／移除系列，或只移除某次。取消日期在系列修改後保留。
-- 行程：00:00–24:00，手機預設單日，週總覽看齊七天。任務可拖動，時長不變，手動位置保留，原空檔留白。點任務會從原位置展開互動氣泡。
-- 投入紀錄：先按原安排更新工時。前移是可稍後查看的建議，不阻擋其他操作；確認才採用。原安排保持實色並可操作。
-- 長期目標：圓點隨累計投入逐步填滿。參考工時預設 10 小時，可修改；填滿不代表目標完成。
-- 第三頁「事項與設定」：繁體中文、簡體中文、英文，以及 JSON 導入／導出。使用者輸入的名稱不會被翻譯。
-
-私人時間預設保護；只有明確開啟借用後，三天內的 DDL 才可在普通空檔不足時借用。固定事項始終保留。
-
-## 備份及限制
-
-JSON 備份包含任務、事項、投入紀錄、手動位置與偏好設定，網頁與 Android 共用格式。導入會取代資料，不會合併；先驗證並另存舊資料，再原子寫入。錯誤檔案不會覆蓋原資料。每位使用者各自保存，沒有同步功能；同一資料檔不要同時開兩個程式。
-
-Android 資料在應用私有目錄。安裝新版前建議先在第三頁導出備份。相同金鑰和套件可供覆蓋安裝；解除安裝或清除應用資料會刪除本機紀錄。打包方式及驗證範圍見 [Android 說明](android/README.md)。
-
-## 開發與驗證
+已啟動容器但未設帳號：在**容器互動終端**執行：
 
 ```sh
-python3 -B -m unittest discover -s . -p 'test_*.py' -v
-node --check app.js
-python3 -B build_share.py
+python -m nas.manage create-user admin --admin
 ```
 
-目前 70 項 Python 測試。測試使用獨立資料，不修改個人檔案。規格見 [SPEC.md](SPEC.md)，驗證紀錄見 [TESTING.md](TESTING.md)，開發審查紀錄見 [REVIEW.md](REVIEW.md)。歷史 amendment 以最後版本為準；審查紀錄不是組員已完成 peer review 的證明。
+按提示輸入兩次**自己設定、至少 12 字元**的密碼。不顯示字元或星號是正常的。沒有預設密碼，也不是 fnOS 密碼。已存在帳號請看教程中的 `reset-password`。
 
-假期來源：[2026 政府公告](https://www.info.gov.hk/gia/general/202505/16/P2025051300353p.htm)、[2027 政府公告](https://www.info.gov.hk/gia/general/202605/15/P2026051400300p.htm)。程式運行不需連網查詢假日。
+## 介面與開發
+
+期限優先，同期限再看重要性；課程、固定事項及私人時間先扣除。長期目標只提醒，圓點隨投入填滿。提前完成後先保留原安排，前移僅作建議。
+
+重複事項、香港 2026–2027 假日、固定事項單次取消、任務拖動、繁／簡／英文及 JSON 匯入匯出均保留。手機預設一次看全七天；點日期看單日，點任務看氣泡詳情。
+
+```sh
+python -m pip install -r nas/requirements.txt
+python -m unittest discover -v
+node --check nas/static/ui.js
+node --test nas/test_client.cjs
+node --check android/runtime/app.js
+```
+
+根目錄 Python 模組為共用規則；NAS API 與前端在 `nas/`，本地 Android 在 `android/`，NAS Android 在 `nas/android/`。歷史規格及審查紀錄作課程開發記錄保留，當前安裝方法以本頁和安裝教程為準。
