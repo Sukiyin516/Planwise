@@ -2,16 +2,12 @@
 from datetime import date, timedelta
 import secrets
 from holidays import is_workday
+from time_slots import (EVENT_INVALID_TIME, EVENT_MISSING_TIME,
+                        TIMETABLE_INVALID_TIME, TIMETABLE_MISSING_TIME, parse_clock)
 
 
 def clock(value):
-    try:
-        hour,minute=map(int,value.split(':'))
-    except (ValueError,AttributeError):
-        raise ValueError('請填寫半小時單位的時間，例如 09:00 或 09:30。') from None
-    if not 0<=hour<=24 or minute not in (0,30) or (hour==24 and minute):
-        raise ValueError('時間須為 00:00–24:00，並以半小時為單位。')
-    return hour*60+minute
+    return parse_clock(value, EVENT_MISSING_TIME, EVENT_INVALID_TIME)
 
 
 def matches(event,day,workdays=(0,1,2,3,4)):
@@ -82,7 +78,6 @@ def save_event(state,data):
 
 
 def move_occurrence(state,data,today):
-    from timetable import clock as parse_clock
     def field(key):return data.get(key,[''])[0]
     event=next((e for e in state['events'] if e['id']==field('id')),None)
     if event is None:raise ValueError('找不到這個事項。')
@@ -93,7 +88,7 @@ def move_occurrence(state,data,today):
     if previous.get('cancelled'):raise ValueError('這一次事項已移除。')
     duration=previous.get('end',event['end'])-previous.get('start',event['start'])
     new_day=date.fromisoformat(field('new_date'))
-    begin=parse_clock(field('new_start'))
+    begin=parse_clock(field('new_start'), TIMETABLE_MISSING_TIME, TIMETABLE_INVALID_TIME)
     if not today<=new_day<=today+timedelta(days=6) or begin>=1440:
         raise ValueError('請移到未來七天內的有效時段。')
     event['overrides'][original.isoformat()]=dict(date=new_day.isoformat(),start=begin,end=begin+duration)
