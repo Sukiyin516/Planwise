@@ -6,8 +6,9 @@ services:
       dockerfile: nas/Dockerfile
     platform: linux/amd64
     image: planwise-nas:0.1.0
+    pull_policy: build
     ports:
-      - "${PLANWISE_BIND_IP:-0.0.0.0}:${PLANWISE_PORT:-8088}:8080"
+      - "${PLANWISE_BIND_IP:-0.0.0.0}:${PLANWISE_PORT:-9473}:8080"
     environment:
       PLANWISE_DATABASE: /data/planwise.sqlite3
       PLANWISE_COOKIE_SECURE: "${PLANWISE_COOKIE_SECURE:-0}"
