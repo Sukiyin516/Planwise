@@ -1,0 +1,13 @@
+**
+!nas/
+!nas/*.py
+!nas/requirements.txt
+!nas/static/
+!nas/static/**
+!planner.py
+!timetable.py
+!events.py
+!storage.py
+!holidays.py
+!i18n.py
+!translations.json
