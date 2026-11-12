@@ -4,9 +4,11 @@ from contextlib import closing
 from datetime import datetime
 import json
 from pathlib import Path
+import sqlite3
 import tempfile
 import unittest
 import uuid
+from unittest.mock import patch
 
 from nas.application import create_app, HKT
 
@@ -137,6 +139,28 @@ class APITests(unittest.TestCase):
         with closing(self.store.connect()) as db:
             backup=json.loads(db.execute('SELECT data FROM backups').fetchone()[0])
         self.assertEqual(len(backup['tasks']),2)
+
+    def test_import_write_failure_rolls_back_plan_backup_and_request(self):
+        self.task('Original')
+        before = self.state()
+        exported = self.client.get('/api/export').get_data(as_text=True)
+        key = str(uuid.uuid4())
+        original_save = self.store.save_plan_action
+
+        def fail_after_write(*args):
+            original_save(*args)
+            raise sqlite3.OperationalError('simulated failure after writes')
+
+        with patch.object(self.store, 'save_plan_action', side_effect=fail_after_write):
+            response = self.action('import_data', dict(backup_json=exported, replace_confirm='yes'), key=key)
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.get_json()['code'], 'storage')
+        after = self.state()
+        self.assertEqual(after['state'], before['state'])
+        self.assertEqual(after['version'], before['version'])
+        with closing(self.store.connect()) as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM backups').fetchone()[0], 0)
+            self.assertIsNone(db.execute('SELECT key FROM requests WHERE key=?', (key,)).fetchone())
 
     def test_goal_effort_fill_and_half_hour_validation(self):
         response=self.action('save',dict(title='N1',kind='goal',important='yes',target_hours='10'))
