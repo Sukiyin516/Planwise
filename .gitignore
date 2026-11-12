@@ -19,3 +19,13 @@ __pycache__/
 # Shared runtime is copied by android/build-apk.sh
 /android/app/src/main/python/*
 !/android/app/src/main/python/android_bootstrap.py
+# NAS runtime and independent Android frontend
+*.sqlite3
+*.sqlite3-*
+/nas/.env
+/.env
+/.venv/
+/nas/android/.gradle/
+/nas/android/build/
+/nas/android/app/build/
+/nas/android/local.properties
