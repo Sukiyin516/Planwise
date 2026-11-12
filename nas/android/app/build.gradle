@@ -1,0 +1,21 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'hk.planwise.nas'
+    compileSdk 36
+    buildToolsVersion '36.0.0'
+    defaultConfig {
+        applicationId 'hk.planwise.nas'
+        minSdk 26
+        targetSdk 36
+        versionCode 1
+        versionName '0.1.0-nas-preview'
+    }
+    buildTypes { debug { debuggable false } }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    sourceSets.main.assets.srcDir(layout.buildDirectory.dir('generated/client-assets'))
+}
+tasks.register('copyNasClient', Copy) {
+    from('../../static')
+    into(layout.buildDirectory.dir('generated/client-assets'))
+}
+tasks.named('preBuild').configure { dependsOn('copyNasClient') }
