@@ -27,6 +27,45 @@ class APIError(Exception):
         self.message, self.status, self.code = message, status, code
 
 
+def prepare_plan_snapshot(store, db, user_id, clock):
+    """Initialize a plan inside the caller's existing transaction."""
+    row = store.plan(db, user_id)
+    state = json.loads(row['data'])
+    before = json.dumps(state, sort_keys=True)
+    today, cutoff = clock()
+    initialize(state, today, cutoff)
+    version, saved_at = row['version'], row['saved_at']
+    if json.dumps(state, sort_keys=True) != before:
+        version += 1
+        saved_at = int(time.time())
+        store.save_initialized_plan(db, user_id, state, version, saved_at)
+    return state, version, saved_at, today, cutoff
+
+
+def commit_plan_action(store, db, session, current, data, fingerprint, clock):
+    """Apply one plan change in the caller's transaction; report a replay."""
+    user_id = session['user_id']
+    prior = store.request_fingerprint(db, user_id, data['request_id'])
+    if prior:
+        if prior['fingerprint'] != fingerprint:
+            raise APIError('Request ID was reused for a different change.',409,'request_reused')
+        return True
+    if data['version'] != current['version']:
+        raise APIError('Another device updated this plan. Refresh and review your change before saving again.',409,'conflict')
+    today, cutoff = clock()
+    try:
+        updated = apply(current['state'], data['action'], data.get('fields',{}), today, cutoff)
+        serialized = json.dumps(updated, ensure_ascii=False)
+        if len(serialized.encode()) > 4_000_000:
+            raise ValueError('Plan exceeds 4 MB. Export and archive old records.')
+    except (ValueError,TypeError,KeyError,OverflowError,RecursionError) as exc:
+        raise APIError(str(exc) if isinstance(exc,ValueError) else 'Invalid data; your plan was not changed.') from None
+    if data['action'] == 'import_data':
+        store.backup_before_import(db, user_id, current['version'], current['state'])
+    store.save_plan_action(db, user_id, serialized, data['request_id'], fingerprint)
+    return False
+
+
 def create_app(config=None):
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     app.config.update(DATABASE=os.environ.get('PLANWISE_DATABASE', '/data/planwise.sqlite3'),
@@ -70,16 +109,7 @@ def create_app(config=None):
         return response
 
     def snapshot(db, session):
-        row = db.execute('SELECT * FROM plans WHERE user_id=?', (session['user_id'],)).fetchone()
-        state = json.loads(row['data'])
-        before = json.dumps(state, sort_keys=True)
-        today, cutoff = clock()
-        initialize(state, today, cutoff)
-        version, saved_at = row['version'], row['saved_at']
-        if json.dumps(state, sort_keys=True) != before:
-            version += 1
-            saved_at = int(time.time())
-            db.execute('UPDATE plans SET data=?,version=?,saved_at=? WHERE user_id=?', (json.dumps(state), version, saved_at, session['user_id']))
+        state, version, saved_at, today, cutoff = prepare_plan_snapshot(store, db, session['user_id'], clock)
         g.language = state['language']
         result = dict(api_version=1, user=dict(id=session['user_id'], username=session['username'], is_admin=bool(session['is_admin'])),
                       csrf=session['csrf'], version=version, saved_at=saved_at, state=state, view=view(state,today,cutoff))
@@ -251,27 +281,8 @@ def create_app(config=None):
         with store.transaction() as db:
             session = authorize(db)
             current = snapshot(db,session)
-            prior = db.execute('SELECT fingerprint FROM requests WHERE user_id=? AND key=?', (session['user_id'],data['request_id'])).fetchone()
-            if prior:
-                if prior['fingerprint'] != fingerprint:
-                    raise APIError('Request ID was reused for a different change.',409,'request_reused')
+            if commit_plan_action(store, db, session, current, data, fingerprint, clock):
                 return jsonify(**current,replayed=True)
-            if data['version'] != current['version']:
-                raise APIError('Another device updated this plan. Refresh and review your change before saving again.',409,'conflict')
-            today,cutoff = clock()
-            try:
-                updated = apply(current['state'],data['action'],data.get('fields',{}),today,cutoff)
-                serialized = json.dumps(updated,ensure_ascii=False)
-                if len(serialized.encode()) > 4_000_000:
-                    raise ValueError('Plan exceeds 4 MB. Export and archive old records.')
-            except (ValueError,TypeError,KeyError,OverflowError,RecursionError) as exc:
-                raise APIError(str(exc) if isinstance(exc,ValueError) else 'Invalid data; your plan was not changed.') from None
-            if data['action']=='import_data':
-                db.execute('INSERT INTO backups(user_id,version,data,at) VALUES(?,?,?,?)',(session['user_id'],current['version'],json.dumps(current['state']),int(time.time())))
-                db.execute('DELETE FROM backups WHERE user_id=? AND id NOT IN (SELECT id FROM backups WHERE user_id=? ORDER BY id DESC LIMIT 10)',(session['user_id'],session['user_id']))
-            db.execute('UPDATE plans SET data=?,version=version+1,saved_at=? WHERE user_id=?',(serialized,int(time.time()),session['user_id']))
-            db.execute('INSERT INTO requests VALUES(?,?,?,?)',(session['user_id'],data['request_id'],fingerprint,int(time.time())))
-            db.execute('DELETE FROM requests WHERE user_id=? AND key NOT IN (SELECT key FROM requests WHERE user_id=? ORDER BY at DESC,rowid DESC LIMIT 200)',(session['user_id'],session['user_id']))
             return jsonify(snapshot(db,session))
 
     @app.get('/api/export')

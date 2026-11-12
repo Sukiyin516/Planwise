@@ -73,6 +73,31 @@ class Database:
         finally:
             db.close()
 
+    def plan(self, db, user_id):
+        return db.execute('SELECT * FROM plans WHERE user_id=?', (user_id,)).fetchone()
+
+    def save_initialized_plan(self, db, user_id, state, version, saved_at):
+        db.execute('UPDATE plans SET data=?,version=?,saved_at=? WHERE user_id=?',
+                   (json.dumps(state), version, saved_at, user_id))
+
+    def request_fingerprint(self, db, user_id, key):
+        return db.execute('SELECT fingerprint FROM requests WHERE user_id=? AND key=?',
+                          (user_id, key)).fetchone()
+
+    def backup_before_import(self, db, user_id, version, state):
+        db.execute('INSERT INTO backups(user_id,version,data,at) VALUES(?,?,?,?)',
+                   (user_id, version, json.dumps(state), int(time.time())))
+        db.execute('DELETE FROM backups WHERE user_id=? AND id NOT IN (SELECT id FROM backups WHERE user_id=? ORDER BY id DESC LIMIT 10)',
+                   (user_id, user_id))
+
+    def save_plan_action(self, db, user_id, serialized, key, fingerprint):
+        db.execute('UPDATE plans SET data=?,version=version+1,saved_at=? WHERE user_id=?',
+                   (serialized, int(time.time()), user_id))
+        db.execute('INSERT INTO requests VALUES(?,?,?,?)',
+                   (user_id, key, fingerprint, int(time.time())))
+        db.execute('DELETE FROM requests WHERE user_id=? AND key NOT IN (SELECT key FROM requests WHERE user_id=? ORDER BY at DESC,rowid DESC LIMIT 200)',
+                   (user_id, user_id))
+
     def create_user(self, username, password, admin=False, db=None, language='zh-Hant'):
         if not isinstance(username, str) or not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}', username):
             raise ValueError('Username: 3–40 letters, digits, dots, underscores or hyphens.')
