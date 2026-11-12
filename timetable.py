@@ -2,16 +2,11 @@
 from datetime import date, timedelta
 import secrets
 from events import event_cells
+from time_slots import TIMETABLE_INVALID_TIME, TIMETABLE_MISSING_TIME, parse_clock
 
 
 def clock(value):
-    try:
-        hour, minute = map(int, value.split(':'))
-    except (ValueError, AttributeError):
-        raise ValueError('請填寫時間，例如 18:00 或 18:30。') from None
-    if not 0 <= hour <= 24 or minute not in (0,30) or (hour == 24 and minute):
-        raise ValueError('時間以半小時為單位，範圍為 00:00–24:00。')
-    return hour*60+minute
+    return parse_clock(value, TIMETABLE_MISSING_TIME, TIMETABLE_INVALID_TIME)
 
 
 def stamp(value):
